@@ -1,0 +1,18 @@
+{% load web_tag %}
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li {% if current == "second" %} class="current" {% endif %}>
+                    <a href="{% build_url '/cms/major/second' %}">二级专业列表</a>
+                </li>
+                <li {% if current == "first" %} class="current" {% endif %}>
+                    <a href="{% build_url '/cms/major/first' %}">一级专业列表</a>
+                </li>
+                <li {% if current == "class" %} class="current" {% endif %}>
+                    <a href="{% build_url '/cms/major/class' %}">分类列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

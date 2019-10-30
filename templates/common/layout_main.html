@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load web_tag %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Django</title>
+    <!-- Bootstrap -->
+    <link href="{% build_static_url '/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% build_static_url '/bootstrap/bootstrap-datetimepicker.css' %}" rel="stylesheet">
+    <link href="{% build_static_url '/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% build_static_url '/css/style.css' %}" rel="stylesheet">
+    {%block css %}{% endblock %}
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="profile-element text-center">
+                            <img alt="image" class="img-circle" src="{% build_static_url '/images/common/logo.png' %}"/>
+                            <p class="text-muted">cms</p>
+                        </div>
+                        <div class="logo-element">
+                            <img alt="image" class="img-circle" src="{% build_static_url '/images/common/logo.png' %}"/>
+                        </div>
+                    </li>
+                    <li class="default">
+                        <a href="{% build_url '/cms/' %}"><i class="fa fa-dashboard fa-lg"></i>
+                            <span class="nav-label">管理员列表</span></a>
+                    </li>
+                    <li class="user">
+                        <a href="{% build_url '/cms/user' %}"><i class="fa fa-user fa-lg"></i> <span
+                                class="nav-label">用户列表</span></a>
+                    </li>
+                    <li class="major">
+                        <a href="{% build_url '/cms/major' %}"><i class="fa fa-book fa-lg"></i> <span
+                                class="nav-label">专业</span></a>
+                    </li>
+                </ul>
+    
+            </div>
+        </nav>
+    
+        <div id="page-wrapper" class="gray-bg" style="background-color: #ffffff;">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <span class="m-r-sm text-muted welcome-message">
+                                欢迎使用cms
+                            </span>
+                        </li>
+                        <li class="dropdown user_info">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                                <img alt="image" class="img-circle" src="{% build_static_url '/images/common/avatar.png' %}"/>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        姓名：{{ current_user.nickname }} <a href="{% build_url '/user/edit' %}" class="pull-right">编辑</a>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        手机号码：{{ current_user.mobile }}
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="link-block text-center">
+                                        <a class="pull-left" href="{% build_url '/user/reset-pwd' %}">
+                                            <i class="fa fa-lock"></i> 修改密码
+                                        </a>
+                                        <a class="pull-right" href="{% build_url '/user/logout' %}">
+                                            <i class="fa fa-sign-out"></i> 退出
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+    
+                    </ul>
+    
+                </nav>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <script src="{% build_static_url '/plugins/jquery-2.1.1.js' %}"></script>
+    <script src="{% build_static_url '/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% build_static_url '/bootstrap/bootstrap-datetimepicker.js' %}"></script>
+    <script src="{% build_static_url '/bootstrap/locales/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+
+    <script src="{% build_static_url '/plugins/layer/layer.js' %}"></script>
+    <script src="{% build_static_url '/js/common.js' %}"></script>
+    {%block js %}{% endblock %}
+</body>
+
+</html>

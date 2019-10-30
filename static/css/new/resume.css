@@ -1,0 +1,348 @@
+.form-group label.control-label {
+    text-align: left;
+}
+
+div.resume {
+    margin: 0 auto;
+    width: 1200px;
+}
+
+div.resume .resume-tabs-wrapper {
+    margin: 15px 0;
+    height: 52px;
+    background-color: black;
+}
+
+div.resume .zp-left-container {
+    width: 880px;
+    background-color: white;
+    padding: 40px 25px 42px 25px;
+}
+
+div.resume .zp-left-container span.text-left {
+    font-size: 24px;
+    color: #333;
+    letter-spacing: 0;
+    line-height: 96px;
+}
+
+div.resume .zp-left-container span.text-left.user_info {
+    margin-top: -40px;
+    font-size: 24px;
+}
+
+div.resume .zp-left-container div.user_info .name {
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    max-width: 10em;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 35px;
+    font-size: 32px;
+    line-height: 32px;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-name {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-name__update-time {
+    font-size: 14px;
+    color: #999;
+    margin-left: 12px;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-info {
+    padding-top: 10px;
+    font-size: 16px;
+    line-height: 14px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-info .profile-pre-info-txt:first-of-type {
+    padding: 0 24px 0 0;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-info .profile-pre-info-txt {
+    position: relative;
+    padding: 0 24px;
+}
+
+div.resume .zp-left-container div.user_info .profile-pre-info .profile-pre-info-txt:not(:first-of-type):before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 12px;
+    background: #dcdcdc;
+}
+
+.profile-pre-contact span {
+    margin-right: 16px;
+}
+
+.profile-pre-contact i {
+    margin-right: 14px;
+}
+
+div.resume .zp-left-container div.profile-edit-form {
+    padding: 40px 0 40px 24px;
+    background: #f8f8f8;
+    position: relative;
+}
+
+div.resume .zp-left-container div.profile-edit-form {
+    font-size: 16px;
+    color: #999;
+}
+
+div.resume .zp-left-container div.profile-edit-form div.profile-edit-crop {
+    position: absolute;
+    right: 25px;
+    top: 40px;
+}
+
+div.resume .zp-left-container div.profile-edit-form .form-group .col-lg-10 input {
+    width: 30%;
+    display: inline;
+    margin-right: 8px;
+}
+
+div.resume .zp-left-container div.profile-edit-form .form-group .col-lg-10 select {
+    width: 30%;
+}
+
+div.resume .zp-left-container .edu .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .edu .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .edu .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .edu .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .edu .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+
+div.resume .zp-right-container {
+    width: 305px;
+    background-color: black;
+}
+
+/*   */
+div.resume .zp-left-container .professional .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .professional .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .professional .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .professional .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .professional .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+/************/
+div.resume .zp-left-container .honour .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .honour .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .honour .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .honour .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .skills_competition .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+
+/************/
+div.resume .zp-left-container .skills_competition .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .skills_competition .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .skills_competition .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .skills_competition .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .skills_competition .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+
+/*************/
+div.resume .zp-left-container .technological_innovation .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .technological_innovation .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .technological_innovation .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .technological_innovation .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .technological_innovation .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+/*********/
+
+div.resume .zp-left-container .national_patent .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .national_patent .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .national_patent .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .national_patent .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .national_patent .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+/*********/
+
+div.resume .zp-left-container .thesis_works .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .thesis_works .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .thesis_works .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .thesis_works .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .thesis_works .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+/*********/
+div.resume .zp-left-container .Professional_certification_or_qualification .header {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+div.resume .zp-left-container .Professional_certification_or_qualification .header a {
+    margin-left: auto;
+}
+
+div.resume .zp-left-container .Professional_certification_or_qualification .edu-list .item {
+    margin-bottom: 5px;
+}
+
+div.resume .zp-left-container .Professional_certification_or_qualification .edu-list label {
+    color: #666;
+    font-size: 14px;
+    line-height: 32px;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+div.resume .zp-left-container .Professional_certification_or_qualification .edu-list label:first-child {
+    font-size: 18px;
+    line-height: 32px;
+}

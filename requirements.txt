@@ -1,0 +1,13 @@
+asn1crypto==1.2.0
+certifi==2019.9.11
+cffi==1.13.0
+cryptography==2.8
+Django==2.0.7
+idna==2.8
+mysql==0.0.2
+mysqlclient==1.4.4
+pycparser==2.19
+PyMySQL==0.9.3
+pytz==2019.3
+six==1.12.0
+sqlparse==0.3.0

@@ -1,0 +1,1095 @@
+{% extends "common/layout_client_common.html" %}
+{% load web_tag %}
+{% block css %}
+    <link href="{% build_static_url '/css/new/resume.css' %}" rel="stylesheet"/>
+{% endblock css %}
+{% block content %}
+
+    <div class="resume">
+        <div class="resume-tabs-wrapper">
+
+        </div>
+
+        <div class="zp-left-container">
+            <div>
+                <div class=>
+                    <span class="text-left user_info">个人信息</span>
+                    <div class="profile-edit-form">
+                        <div class="mg-t20 wrap_first_set" style="">
+                            <div class="col-lg-22" style="">
+                                <div class="form-horizontal" style="">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">姓&nbsp&nbsp名:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="first_name" class="form-control" placeholder="姓名"
+                                                   value="{{ that.nickname }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">性&nbsp&nbsp别:</label>
+                                        <div class="col-lg-10">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                                       value="option1"
+                                                        {% if that.gender == "male" %}
+                                                       checked
+                                                        {% endif %}>
+                                                男
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                                       value="option2"
+                                                        {% if that.gender == "female" %}
+                                                       checked
+                                                        {% endif %}>
+                                                女
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">出&nbsp&nbsp生&nbsp&nbsp年&nbsp&nbsp月:</label>
+                                        <div class="col-lg-10">
+                                            <input type="date" name="weight" class="form-control"
+                                                   value="{% p_to_js_date that.birthday %}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">参加工作时间:</label>
+                                        <div class="col-lg-10">
+                                            <input type="date" name="weight" class="form-control" placeholder=""
+                                                   value="{% p_to_js_date that.enter_the_employment_time %}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">户口所在地:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="省"
+                                                   value="{{ that.household_register_province }}">
+                                            <input type="text" name="weight" class="form-control" placeholder="市"
+                                                   value="{{ that.household_register_city }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">现居住城市:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="省"
+                                                   value="{{ that.live_province }}">
+                                            <input type="text" name="weight" class="form-control" placeholder="市"
+                                                   value="{{ that.live_city }}">
+                                            <input type="text" name="weight" class="form-control" placeholder="区/县"
+                                                   value="{{ that.live_district }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">联系方式:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="手机好码"
+                                                   value="{{ that.mobile }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">电子邮箱:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="电子邮箱"
+                                                   value="{{ that.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">工作单位:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="(选填)工作单位"
+                                                   value="{{ that.work_unit }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">所在部门:</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="weight" class="form-control" placeholder="(选填)所在部门"
+                                                   value="{{ that.department }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">婚姻状况:</label>
+                                        <div class="col-lg-10">
+                                            <select name="major_id" class="form-control select2-hidden-accessible"
+                                                    tabindex="-1"
+                                                    aria-hidden="true">
+
+                                                <option value="-1" selected>(选填)请选择婚姻状况</option>
+                                                <option value="未婚"
+                                                        {% if that.marriage_status == "未婚" %}
+                                                        selected
+                                                        {% endif %}
+                                                >未婚
+                                                </option>
+                                                <option value="已婚"
+                                                        {% if that.marriage_status == "已婚" %}
+                                                        selected
+                                                        {% endif %}
+                                                >已婚
+                                                </option>
+                                                <option value="离异"
+                                                        {% if that.marriage_status == "离异" %}
+                                                        selected
+                                                        {% endif %}
+                                                >离异
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">政治面貌:</label>
+                                        <div class="col-lg-10">
+                                            <select name="major_id" class="form-control select2-hidden-accessible"
+                                                    tabindex="-1"
+                                                    aria-hidden="true">
+                                                <option value="-1" selected>(选填)请选政治面貌</option>
+                                                <option value="群众"
+                                                        {% if that.politics == "群众" %}
+                                                        selected
+                                                        {% endif %}
+                                                >群众
+                                                </option>
+                                                <option value="团员"
+                                                        {% if that.politics == "团员" %}
+                                                        selected
+                                                        {% endif %}
+                                                >团员
+                                                </option>
+                                                <option value="中共党员(含预备党员)"
+                                                        {% if that.politics == "中共党员(含预备党员)" %}
+                                                        selected
+                                                        {% endif %}
+                                                >中共党员(含预备党员)
+                                                </option>
+                                                <option value="民主党派"
+                                                        {% if that.politics == "民主党派" %}
+                                                        selected
+                                                        {% endif %}>民主党派
+                                                </option>
+                                                <option value="无党派人士"
+                                                        {% if that.politics == "无党派人士" %}
+                                                        selected
+                                                        {% endif %}
+                                                >无党派人士
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">海外经历:</label>
+                                        <div class="col-lg-10">
+                                            <select name="major_id" class="form-control select2-hidden-accessible"
+                                                    tabindex="-1"
+                                                    aria-hidden="true">
+                                                <option value="-1" selected>(选填)请选是否有海外工作经历或学习</option>
+                                                <option value="有"
+                                                        {% if that.globetrotters == "有" %}
+                                                        selected
+                                                        {% endif %}
+                                                >有
+                                                </option>
+                                                <option value="无"
+                                                        {% if that.globetrotters == "无" %}
+                                                        selected
+                                                        {% endif %}
+                                                >无
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2 col-lg-offset-2">
+                                            <input type="hidden" name="id" value="{{ info.id }}">
+                                            <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-edit-crop">
+                            <label class="fl file-uploads file-uploads-html5 file-uploads-drop">选择文件
+                                <input name="content" id="content" accept="image/jpg" type="file">
+                            </label>
+                            <img src="//mypics.zhaopin.cn//avatar/2018/1/19/ce2e873a-2b33-421a-a0f5-926a7a7d8110.jpg"
+                                 alt="头像"
+                                 title="头像" width="100" height="100" class="fl profile-edit-crop-image">
+                            <p class="profile-edit-crop-photo">
+                                <span class="form-error-tip" style="display: none;">false</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="edu-list user_info">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <div class="col-lg-2">
+                            <img src="//mypics.zhaopin.cn//avatar/2018/1/19/ce2e873a-2b33-421a-a0f5-926a7a7d8110.jpg"
+                                 width="116px" height="116px">
+                        </div>
+                        <div class="col-lg-8">
+                            <p class="profile-pre-name clearfix">
+                                <span title="{{ that.nickname }}" class="fl name">{{ that.nickname }}</span>
+                                <span class="profile-pre-name__update-time">更新时间：{{ that.update_time }}</span>
+                            </p>
+                            <p class="profile-pre-info">
+                                <span class="profile-pre-info-txt">
+                                    {% if that.gender == "male" %}
+                                        男
+                                    {% elif that.gender == "female" %}
+                                        女
+                                    {% else %}
+                                        未知
+                                    {% endif %}
+                                </span>
+                                <span class="profile-pre-info-txt">
+                                    {% date_to_now_from_year that.birthday %}
+                                </span>
+                                <span class="profile-pre-info-txt">深圳</span>
+                                <span class="profile-pre-info-txt">{{ that.globetrotters }}海外经验</span>
+                            </p>
+                            <p class="profile-pre-contact clearfix">
+                                <i class="fa fa-mobile-phone fa-fw"></i>
+                                <span class="fl profile-pre-contact-phoneT">{{ that.mobile }}</span>
+                                <i class="fa fa-envelope-o fa-fw"></i>
+                                <span class="fl">{{ that.email }}</span>
+                            </p>
+                        </div>
+                        <div class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+
+            <div class="edu">
+                <div class="header">
+                    <span class="text-left">教育经历</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加教育经历
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-3">湖南农业大学</label>
+                        <label class="col-lg-3">电子商务</label>
+                        <label class="col-lg-2">本科</label>
+                        <label class="col-lg-2">2015.9-2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">学&nbsp校&nbsp名&nbsp称:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control" placeholder="学校名称"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">就&nbsp读&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                        <span>---> </span>
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">所&nbsp学&nbsp专&nbsp业:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="weight" class="form-control" placeholder="所学专业~~"
+                                               value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">所&nbsp在&nbsp院&nbsp系:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="weight" class="form-control" placeholder="院系~~"
+                                               value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">学&nbsp&nbsp历:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择学历</option>
+                                            <option value="1">初中</option>
+                                            <option value="2">中技</option>
+                                            <option value="3">高中</option>
+                                            <option value="4">大专</option>
+                                            <option value="5">本科</option>
+                                            <option value="6">硕士</option>
+                                            <option value="7">MBA</option>
+                                            <option value="8">EMBA</option>
+                                            <option value="9">博士</option>
+                                            <option value="10">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">学&nbsp&nbsp位:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择学位</option>
+                                            <option value="1">学士学位</option>
+                                            <option value="2">硕士学位</option>
+                                            <option value="3">博士学位</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+
+
+            {#       添加职称  start    #}
+            <div class="professional">
+                <div class="header">
+                    <span class="text-left">职称/职鉴</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加职称/职鉴
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">软件开发工程师</label>
+                        <label class="col-lg-3">中级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">职&nbsp称&nbsp名&nbsp称:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control"
+                                               placeholder="职&nbsp称&nbsp名&nbsp称"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择职称等级</option>
+                                            <option value="1">初级</option>
+                                            <option value="2">中级(技师)</option>
+                                            <option value="3">高级(高级技师)</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form class="upload_pic_wrap" target="upload_file"
+                                                  enctype="multipart/form-data" method="POST"
+                                                  action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       添加职称  end   #}
+
+            {#       荣誉奖章  start    #}
+            <div class="honour">
+                <div class="header">
+                    <span class="text-left">荣誉奖章</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加荣誉奖章
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">荣誉奖章名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">荣誉奖章名:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control"
+                                               placeholder="荣誉奖章名"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择等级</option>
+                                            <option value="1">国家级</option>
+                                            <option value="2">省,部,集团</option>
+                                            <option value="3">地,厅,省公司</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form class="upload_pic_wrap" target="upload_file"
+                                                  enctype="multipart/form-data" method="POST"
+                                                  action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       荣誉奖章  end   #}
+
+            {#       技能竞赛  start    #}
+            <div class="skills_competition">
+                <div class="header">
+                    <span class="text-left">技能竞赛</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加技能竞赛
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">技能竞赛名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">技能竞赛名:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control"
+                                               placeholder="技能竞赛名"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择等级</option>
+                                            <option value="1">国家级</option>
+                                            <option value="2">省,部,集团</option>
+                                            <option value="3">地,厅,省公司</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form class="upload_pic_wrap" target="upload_file"
+                                                  enctype="multipart/form-data" method="POST"
+                                                  action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       技能竞赛  end   #}
+
+            {#       科技创新  start    #}
+            <div class="technological_innovation">
+                <div class="header">
+                    <span class="text-left">科技创新</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加科技创新
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">科技创新名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">科技创新名:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control"
+                                               placeholder="科技创新"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择等级</option>
+                                            <option value="1">国家级</option>
+                                            <option value="2">省,部,集团</option>
+                                            <option value="3">地,厅,省公司</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form class="upload_pic_wrap" target="upload_file"
+                                                  enctype="multipart/form-data" method="POST"
+                                                  action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       科技创新  end   #}
+
+            {#       国家专利  start    #}
+            <div class="national_patent">
+                <div class="header">
+                    <span class="text-left">国家专利</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加国家专利
+                    </a>
+                </div>
+                <div class="edu-list">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">国家专利名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">国家专利名:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="first_name" class="form-control"
+                                               placeholder="国家专利"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择等级</option>
+                                            <option value="1">国家发明专利</option>
+                                            <option value="2">实用行新型专利</option>
+                                            <option value="3">地,厅,省公司</option>
+                                            <option value="4">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form class="upload_pic_wrap" target="upload_file"
+                                                  enctype="multipart/form-data" method="POST"
+                                                  action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       国家专利  end   #}
+
+            {#       论文著作  start    #}
+            <div class="thesis_works item-info">
+                <div class="header">
+                    <span class="text-left">论文著作</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                        <i class="fa fa-plus"></i>&nbsp;添加论文著作
+                    </a>
+                </div>
+                <div class="edu-list"
+                     m_id="1"
+                     m_name="厂长"
+                     m_obtion_time="2012-10-12"
+                     m_level="1"
+                     m_img="http://www.baidu.com#@#http://www.google.com">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">论文著作名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2 btn-edit hidden">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden edit">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">论文著作:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="describe_name" class="form-control describe_name"
+                                               placeholder="论文著作"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label obtain_time">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="weight" class="form-control obtain_time" placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">著作方式:</label>
+                                    <div class="col-lg-10">
+                                        <select name="level" class="level form-control select2-hidden-accessible"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择著作方式</option>
+                                            <option value="1">在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(第一作者)</option>
+                                            <option value="2">在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(合著者)</option>
+                                            <option value="3">在CN期刊上发表的论文(第一作者)</option>
+                                            <option value="4">在CN期刊上发表的论文(合著者)</option>
+                                            <option value="5">著作第一主编</option>
+                                            <option value="6">副主编或编委</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form
+                                                    id="thesis_works-from"
+                                                    class="upload_pic_wrap" target="upload_file"
+                                                    enctype="multipart/form-data" method="POST"
+                                                    action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       论文著作  end   #}
+
+
+            {#       专业认证或资质  start    #}
+            <div class="Professional_certification_or_qualification item-info">
+                <div class="header">
+                    <span class="text-left">专业认证或资质</span>
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right add-info">
+                        <i class="fa fa-plus"></i>&nbsp;添加专业认证或资质
+                    </a>
+                </div>
+                <div class="edu-list"
+                     m_id="1"
+                     m_name="厂长"
+                     m_obtion_time="2012-10-12"
+                     m_level="1"
+                     m_img="http://www.baidu.com#@#http://www.google.com">
+                    <div class="row mg-t20 wrap_first_set item" style="">
+                        <label class="col-lg-4">名字</label>
+                        <label class="col-lg-3">等级</label>
+                        <label class="col-lg-3">2018.9</label>
+                        <label class="col-lg-2 btn-edit hidden">
+                            <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                            </a>
+                        </label>
+                    </div>
+                </div>
+                <div class="profile-edit-form hidden edit">
+                    <div class="mg-t20 wrap_first_set" style="">
+                        <div class="col-lg-22" style="">
+                            <div class="form-horizontal" style="">
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">名字:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="describe_name" class="form-control describe_name"
+                                               placeholder="名字"
+                                               value="{{ info.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
+                                    <div class="col-lg-10">
+                                        <input type="date" name="obtain_time" class="form-control obtain_time"
+                                               placeholder=""
+                                               value="">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">等级:</label>
+                                    <div class="col-lg-10">
+                                        <select name="level" class="form-control select2-hidden-accessible level"
+                                                tabindex="-1"
+                                                aria-hidden="true">
+                                            <option value="-1" selected>请选择等级</option>
+                                            <option value="1">国际认证证书高级</option>
+                                            <option value="2">国际认证证书中级</option>
+                                            <option value="3">国际认证证书初级</option>
+                                            <option value="4">国内认证证书高级</option>
+                                            <option value="5">国内认证证书中级</option>
+                                            <option value="6">国内认证证书初级</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">上传相关照片:</label>
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-10">
+                                            <form
+                                                    id="Professional_certification_or_qualification-from"
+                                                    class="upload_pic_wrap" target="upload_file"
+                                                    enctype="multipart/form-data" method="POST"
+                                                    action="{% build_url '/upload/pic' %}">
+                                                <div class="upload_wrap pull-left">
+                                                    <i class="fa fa-upload fa-2x"></i>
+                                                    <input type="file" name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif"
+                                                           target_id="Professional_certification_or_qualification-from">
+                                                </div>
+                                                {% if info and info.main_image %}
+                                                    <span class="pic-each">
+                                                        <img src="{% build_url info.main_image %}"/>
+                                                        <span class="fa fa-times-circle del del_image"
+                                                              data="{{ info.main_image }}">
+                                                        </span>
+                                                    </span>
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hr-line-dashed"></div>
+            {#       专业认证或资质  end   #}
+        </div>
+
+        <div class="zp-right-container">
+            <div style="width: 100%;height: 200px">
+                上面
+            </div>
+            <div>
+                下面
+            </div>
+        </div>
+        <div id="my_uid" class="hidden" uid="1"></div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% build_static_url '/js/new/resume.js' %}"></script>
+{% endblock %}
