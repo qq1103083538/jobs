@@ -346,3 +346,7 @@ div.resume .zp-left-container .Professional_certification_or_qualification .edu-
     font-size: 18px;
     line-height: 32px;
 }
+
+div.upload_wrap input[type='file']{
+    width: 100% !important;
+}

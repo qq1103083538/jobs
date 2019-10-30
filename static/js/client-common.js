@@ -1,11 +1,11 @@
 ;
 
-var common_ops = {
+var common_client_ops = {
     init: function () {
     },
 
 };
 
 $(document).ready(function () {
-    common_ops.init();
+    common_client_ops.init();
 });

@@ -45,6 +45,8 @@ def month_differ(x, y):
 
 @register.simple_tag
 def date_to_now_from_year(date):
+    if not date:
+        return 0
     now_date = datetime.datetime.now()
     y = month_differ(date, now_date)
     return math.ceil(y / 12)

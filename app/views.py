@@ -2,7 +2,7 @@ from django.shortcuts import render
 from common.Helper import ops_render, get_date_form_str, getFormatDate
 from django.http import JsonResponse, HttpResponse
 
-from .models import User, MajorClass, MajorFirst, MajorSecond
+from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification
 from common.UserService import UserService
 
 
@@ -12,7 +12,6 @@ def index(request):
 
 
 def register(request):
-
     response = {'code': 200, 'msg': "注册成功", "data": {}}
     if request.method == "POST":
         request_json = request.POST
@@ -549,10 +548,91 @@ def user(request):
 
 
 def new(request):
-    return ops_render(request,"new/index.html")
+    return ops_render(request, "new/index.html")
 
 
 def resume(request):
     that = request.myself
+    ret = {'that': that}
+    uid = request.GET.get("uid", "")
+    user = that
+    if uid:
+        users = User.objects.filter(id=uid)
+        if len(users) == 1:
+            user = users[0]
+            ret["that"] = user
+        else:
+            return HttpResponse("服务器异常，没有该用户～")
+    print(uid)
+    print(request.GET)
+    p_c_or_q_array = ProfessionalCertificationOrQualification.objects.filter(uid=user)
+    ret['p_c_or_q_array'] = p_c_or_q_array
+    print(ProfessionalCertificationOrQualification.objects.all())
+    return ops_render(request, "new/resume.html", ret)
 
-    return ops_render(request,"new/resume.html")
+
+def resume_update(request):
+    if request.method == "GET":
+        return HttpResponse("异常请求～")
+
+    req_dict = request.POST
+    uid = req_dict.get("uid")
+    type = req_dict.get("type")
+    user = None
+    if uid:
+        users = User.objects.filter(id=uid)
+        if len(users) == 1:
+            user = users[0]
+        else:
+            return HttpResponse("服务器异常，没有该用户～")
+    else:
+        return HttpResponse("服务器异常，没有该用户～")
+    if type == "user-info":
+        user.nickname = req_dict.get("nickname")
+        user.gender = req_dict.get("gender")
+        print(req_dict.get("birthday"))
+        birthday = req_dict.get("birthday")
+        if not birthday:
+            birthday = "2000-12-12"
+        user.birthday = get_date_form_str(birthday)
+        enter_the_employment_time = req_dict.get("enter_the_employment_time", "2000-12-12")
+        if not enter_the_employment_time:
+            enter_the_employment_time = "2000-12-12"
+        user.enter_the_employment_time = get_date_form_str(enter_the_employment_time)
+        user.household_register_province = req_dict.get("household_register_province")
+        user.household_register_city = req_dict.get("household_register_city")
+        user.live_province = req_dict.get("live_province")
+        user.live_city = req_dict.get("live_city")
+        user.live_district = req_dict.get("live_district")
+        user.mobile = req_dict.get("mobile")
+        user.email = req_dict.get("email")
+        user.work_unit = req_dict.get("work_unit")
+        user.department = req_dict.get("department")
+        user.marriage_status = req_dict.get("marriage_status")
+        user.politics = req_dict.get("politics")
+        user.globetrotters = req_dict.get("globetrotters")
+        user.portrait = req_dict.get("portrait")
+        user.save()
+        pass
+    elif type == "professional_certification_or_qualification":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = ProfessionalCertificationOrQualification.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+
+        if not model:
+            model = ProfessionalCertificationOrQualification.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+
+    response = {'code': 200, 'msg': "更新成功", "data": {}}
+    return JsonResponse(response)

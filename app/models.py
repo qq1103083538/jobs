@@ -14,28 +14,28 @@ class User(models.Model):
     password = models.CharField(max_length=32, verbose_name=u"密码")
 
     nickname = models.CharField(max_length=16, verbose_name=u"昵称", default=u"", blank=True, null=True)
-    gender = models.CharField(choices=(("male", u"男"), ("female", "女")), max_length=5, default='male',
+    gender = models.CharField(choices=(("male", u"男"), ("female", "女")), max_length=10, default='male',
                               verbose_name=u"性别")
     birthday = models.DateTimeField(verbose_name=u"出生日期", blank=True, null=True)
     enter_the_employment_time = models.DateTimeField(verbose_name=u"入职时间", blank=True, null=True)
-    household_register_province = models.CharField(verbose_name=u"户口所在（省）", blank=True, null=True, max_length=32)
-    household_register_city = models.CharField(verbose_name=u"户口所在（市）", blank=True, null=True, max_length=32)
-    live_province = models.CharField(verbose_name=u"现居城市（省）", blank=True, null=True, max_length=32)
-    live_city = models.CharField(verbose_name=u"现居城市（市）", blank=True, null=True, max_length=32)
-    live_district = models.CharField(verbose_name=u"现居城市（县）", blank=True, null=True, max_length=32)
+    household_register_province = models.CharField(verbose_name=u"户口所在（省）", blank=True, null=True, max_length=32,default="")
+    household_register_city = models.CharField(verbose_name=u"户口所在（市）", blank=True, null=True, max_length=32,default="")
+    live_province = models.CharField(verbose_name=u"现居城市（省）", blank=True, null=True, max_length=32,default="")
+    live_city = models.CharField(verbose_name=u"现居城市（市）", blank=True, null=True, max_length=32,default="")
+    live_district = models.CharField(verbose_name=u"现居城市（县）", blank=True, null=True, max_length=32,default="")
     mobile = models.CharField(max_length=11, default=u"", verbose_name=u"手机号码", null=True, blank=True)
     email = models.CharField(max_length=64, verbose_name=u"邮箱", default=u"", blank=True, null=True)
-    work_unit = models.CharField(verbose_name=u"工作单位", blank=True, null=True, max_length=32)
-    department = models.CharField(verbose_name=u"所在部门", blank=True, null=True, max_length=32)
+    work_unit = models.CharField(verbose_name=u"工作单位", blank=True, null=True, max_length=32,default="")
+    department = models.CharField(verbose_name=u"所在部门", blank=True, null=True, max_length=32,default="")
     marriage_status = models.CharField(verbose_name=u"婚姻状况", blank=True, null=True, max_length=32,
-                                       choices=(("未婚", "未婚"), ("已婚", "已婚"), ("离异", "离异")))
+                                       choices=(("未婚", "未婚"), ("已婚", "已婚"), ("离异", "离异")),default="未婚")
     politics = models.CharField(verbose_name=u"政治面貌", blank=True, null=True, max_length=32,
                                 choices=(("群众", "群众"), ("团员", "团员"), ("中共党员(含预备党员)", "中共党员(含预备党员)")
                                          , ("民主党派", "民主党派")
-                                         , ("无党派人士", "无党派人士")))
+                                         , ("无党派人士", "无党派人士")),default="群众")
     globetrotters = models.CharField(verbose_name=u"海外经历", blank=True, null=True, max_length=32,
-                                     choices=(("有", "有"), ("无", "无")))
-    id_card = models.CharField(max_length=18, verbose_name=u"身份证号码")
+                                     choices=(("有", "有"), ("无", "无")),default="无")
+    id_card = models.CharField(max_length=18, verbose_name=u"身份证号码",default="")
     portrait = models.CharField(max_length=300, blank=True, null=True, verbose_name=u"头像", default="")
     salt = models.CharField(max_length=36, verbose_name="密码密钥")
     type = models.IntegerField(choices=((1, u'用户'), (2, u'管理员')), default=1, verbose_name=u"用户权限")
@@ -190,8 +190,8 @@ class ProfessionalCertificationOrQualification(models.Model):
     专业认证或资质
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"专业认证或资质")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"专业认证或资质",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
 
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "国际认证证书高级"),
                                                              (2, "国际认证证书中级"),
@@ -199,7 +199,7 @@ class ProfessionalCertificationOrQualification(models.Model):
                                                              (4, "国内认证证书高级"),
                                                              (5, "国内认证证书中级"),
                                                              (6, "国内认证证书初级"),), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'专业认证或资质'

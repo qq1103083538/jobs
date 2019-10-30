@@ -13,7 +13,7 @@ def ops_render(request, template_name, context=None, content_type=None, status=N
         context = {}
     if hasattr(request, 'myself'):
         myself = request.myself
-        context['that'] = myself
+        context['myself'] = myself
     context['config'] = settings
     response = render(request=request, template_name=template_name,
                       context=context, content_type=content_type, status=status, using=using)
@@ -36,5 +36,5 @@ def getFormatDate(date=None, format="%Y-%m-%d %H:%M:%S"):
     return date.strftime(format)
 
 
-def get_date_form_str(detester="", format="%y-%m-%s"):
+def get_date_form_str(detester="", format="%Y-%m-%d"):
     return datetime.datetime.strptime(detester, format)

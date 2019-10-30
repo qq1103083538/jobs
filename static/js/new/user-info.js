@@ -5,6 +5,19 @@ var user_info_ops = {
     },
     eventBind: function () {
         var that = this;
+        //点击编辑的时候显示编辑框，同时因此显示信息
+        $("div.user-info div.edit").click(function () {
+            var root = $(this).parents(".user-info");
+            root.children(".edit-form").removeClass("hidden");
+            root.children(".edu-list").addClass("hidden");
+        });
+        //点击取消的时候
+        $("div.user-info button.cancel").click(function () {
+            var root = $(this).parents(".user-info");
+            root.children(".edit-form").addClass("hidden");
+            root.children(".edu-list").removeClass("hidden");
+        });
+        // 点击保存的时候提交到服务器
         $("div.user-info button.save").click(function () {
             var button = $(this);
             var root = button.parents(".user-info");
@@ -24,10 +37,10 @@ var user_info_ops = {
             var marriage_status = root.find(".marriage_status option:selected").val();
             var politics = root.find(".politics option:selected").val();
             var globetrotters = root.find(".globetrotters option:selected").val();
-            var head = root.find('.profile-edit-crop img').src;
-            var uid = button.attr("m_uid");
+            var portrait = $(root.find('.profile-edit-crop img')[0]).attr("m_src");
+            var uid = $("#my_uid").attr("uid");
             $.ajax({
-                url: common_ops.buildUrl("/"),
+                url: common_ops.buildUrl("resume/update_info"),
                 type: 'POST',
                 data: {
                     uid: uid,
@@ -47,7 +60,8 @@ var user_info_ops = {
                     marriage_status: marriage_status,
                     politics: politics,
                     globetrotters: globetrotters,
-                    head: head
+                    portrait: portrait,
+                    type: "user-info"
                 },
                 dataType: 'json',
                 success: function (res) {
@@ -63,9 +77,35 @@ var user_info_ops = {
 
                 }
             });
+        });
+        // 监听图片上传
+        $(".upload_pic_wrap_user_info input[name=pic]").change(function () {
+            var self = $(this);
+            var file_obj = this.files[0];
+            var fd = new FormData();
+            var uid = $("#my_uid").attr("uid");
+            fd.append('username', 'root');
+            fd.append('pic', file_obj);
+            fd.append('uid', uid);
+            fd.append("data", "");
+            $.ajax({
+                url: '/upload/pic',
+                type: 'POST',
+                data: fd,
+                processData: false,  //tell jQuery not to process the data
+                contentType: false,  //tell jQuery not to set contentType
+                //这儿的三个参数其实就是XMLHttpRequest里面带的信息。
+                success: function (response, a1, a2) {
+                    var data = response.data;
+                    // data.path
+                    self.parent().find(".profile-edit-crop-image").attr('src', "./static/" + data.path);
+                    self.parent().find(".profile-edit-crop-image").attr('m_src', data.path);
+                },
+                error: function () {
+                    common_ops.alert("上传失败");
+                }
 
-
-
+            })
         });
     }
 };

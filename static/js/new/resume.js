@@ -56,9 +56,9 @@ var new_resume_ops = {
         });
 
         $("div.item-info div.header a.btn").click(function () {
-            console.log("~");
+            var button = $(this);
             //获取点击的root原素
-            var root = $(this).parents(".item-info");
+            var root = button.parents(".item-info");
             // 获取edit编辑原素
             var edit = root.children(".edit");
             // 如果edit原素是显示的，那么后面无需操作
@@ -94,16 +94,19 @@ var new_resume_ops = {
             $(this).find(".btn-edit").addClass("hidden");
         });
         $("div.edu-list label.btn-edit").click(function () {
-            var root = $(this).parents(".item-info");
+            var button = $(this);
+            var root = button.parents(".item-info");
             // 获取edit编辑原素
             var edit = root.children(".edit");
             // 如果edit原素是显示的，那么后面无需操作
             if (!edit.hasClass("hidden")) {
                 return;
             }
+
             // 获取当前展示的列表
-            var list = root.children(".edu-list");
+            var list = button.parents(".edu-list");
             var m_name = list.attr("m_name");
+            var item_id = list.attr("item_id");
             var m_obtion_time = list.attr("m_obtion_time");
             var m_level = list.attr("m_level");
             var m_img = list.attr("m_img");
@@ -117,9 +120,8 @@ var new_resume_ops = {
                 $(children_image).parent().remove();
             }
             var imgs = m_img.split("#@#");
-
             for (var i = 0; i < imgs.length; i++) {
-                var html = '<img src="' + imgs[i] + '"/>'
+                var html = '<img src="/static/' + imgs[i] + '"/>'
                     + '<span class="fa fa-times-circle del del_image" data="' + imgs[i] + '"></span>';
                 // if ($(" .pic-each").size() > 0) {
                 //     $(".upload_pic_wrap .pic-each").html(html);
@@ -128,6 +130,10 @@ var new_resume_ops = {
                 // }
                 upload_pic_wrap.append('<span class="pic-each">' + html + '</span>');
             }
+            console.log("~~~~~~~");
+            console.log(item_id);
+            var save_button = root.find("button.save");
+            save_button.attr("item_id",item_id);
             edit.removeClass("hidden");
         });
     },

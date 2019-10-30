@@ -47,5 +47,6 @@ urlpatterns = [
     path('cms/', include(cms_patterns)),
     path('new', view.new),
     path('resume', view.resume),
+    path('resume/update_info', view.resume_update),
     path('upload/pic', upload.pic),
 ]
