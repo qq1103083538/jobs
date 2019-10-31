@@ -2,7 +2,8 @@ from django.shortcuts import render
 from common.Helper import ops_render, get_date_form_str, getFormatDate
 from django.http import JsonResponse, HttpResponse
 
-from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification,ThesisWorks,NationalPatent,TechnologicalInnovation,SkillsCompetition,Honour
+from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification, ThesisWorks, \
+    NationalPatent, TechnologicalInnovation, SkillsCompetition, Honour, Professional, Edu, Mark
 from common.UserService import UserService
 
 
@@ -551,6 +552,271 @@ def new(request):
     return ops_render(request, "new/index.html")
 
 
+def sum_mark(user,
+             p_c_or_q_array=[],
+             thesis_works_array=[],
+             national_patent_array=[],
+             technological_innovation_array=[],
+             skills_competition_array=[],
+             honour_array=[],
+             professional_array=[],
+             edu_array=[]
+             ):
+    ret = {}
+    mark = None
+    models = Mark.objects.filter(uid=user)
+    if len(models) == 1:
+        mark = models[0]
+    else:
+        mark = Mark.objects.create(uid=user)
+    total = 0
+    # TODO 这里可以把表达式提出去做扩展，时间问题cv操作。
+    # 专业认证或资质 权重 10%
+    # 定义一个集合接收所有的分数
+    mark_p_c_or_q_array = []
+    for item in p_c_or_q_array:
+        level = item.level
+        if level == 1:
+            temp = 50
+        elif level == 2:
+            temp = 30
+        elif level == 3:
+            temp = 20
+        elif level == 4:
+            temp = 40
+        elif level == 5:
+            temp = 20
+        elif level == 6:
+            temp = 10
+        else:
+            temp = 0
+        # 添加
+        mark_p_c_or_q_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_p_c_or_q_array = sorted(mark_p_c_or_q_array, reverse=True)[:2]
+    p_c_or_q_array_sum = sum(mark_p_c_or_q_array) * 10 / 100
+    ret["p_c_or_q_array_sum"] = p_c_or_q_array_sum
+    ret['p_c_or_q_must'] = 10
+    mark.professional_certification_or_qualification = p_c_or_q_array_sum
+    total += p_c_or_q_array_sum
+
+    # 专业认证或资质 权重 20%
+    # 定义一个集合接收所有的分数
+    mark_thesis_works_array = []
+    for item in thesis_works_array:
+        level = item.level
+        if level == 1:
+            temp = 100
+        elif level == 2:
+            temp = 80
+        elif level == 3:
+            temp = 50
+        elif level == 4:
+            temp = 30
+        elif level == 5:
+            temp = 80
+        elif level == 6:
+            temp = 40
+        else:
+            temp = 0
+        # 添加
+        mark_thesis_works_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_thesis_works_array = sorted(mark_thesis_works_array, reverse=True)[:3]
+    thesis_works_array_sum = sum(mark_thesis_works_array)
+    if thesis_works_array_sum > 100:
+        thesis_works_array_sum = 100
+    thesis_works_array_sum = thesis_works_array_sum * 20 / 100
+    ret["thesis_works_array_sum"] = thesis_works_array_sum
+    ret['thesis_works_array_must'] = 20
+    mark.thesis_works = thesis_works_array_sum
+    total += thesis_works_array_sum
+    # 国家专利 权重 5%
+    # 定义一个集合接收所有的分数
+    mark_national_patent_array = []
+    for item in national_patent_array:
+        level = item.level
+        if level == 1:
+            temp = 100
+        elif level == 2:
+            temp = 50
+        else:
+            temp = 0
+        # 添加
+        mark_national_patent_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_national_patent_array = sorted(mark_national_patent_array, reverse=True)[:2]
+    national_patent_array_sum = sum(mark_national_patent_array)
+    if national_patent_array_sum > 100:
+        national_patent_array_sum = 100
+    national_patent_array_sum = national_patent_array_sum * 5 / 100
+    ret["national_patent_array_sum"] = national_patent_array_sum
+    ret['national_patent_array_must'] = 5
+    mark.national_patent = national_patent_array_sum
+    total += national_patent_array_sum
+    # 科技进步、创新奖 权重 20%
+    # 定义一个集合接收所有的分数
+    mark_technological_innovation_array = []
+    for item in technological_innovation_array:
+        level = item.level
+        if level == 1:
+            temp = 100
+        elif level == 2:
+            temp = 90
+        elif level == 3:
+            temp = 85
+        elif level == 4:
+            temp = 60
+        elif level == 5:
+            temp = 50
+        elif level == 6:
+            temp = 45
+        elif level == 7:
+            temp = 30
+        elif level == 8:
+            temp = 20
+        elif level == 9:
+            temp = 15
+        else:
+            temp = 0
+        # 添加
+        mark_technological_innovation_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_technological_innovation_array = sorted(mark_technological_innovation_array, reverse=True)[:3]
+    technological_innovation_array_sum = sum(mark_technological_innovation_array)
+    if technological_innovation_array_sum > 100:
+        technological_innovation_array_sum = 100
+    technological_innovation_array_sum = technological_innovation_array_sum * 20 / 100
+    ret["technological_innovation_array_sum"] = technological_innovation_array_sum
+    ret['technological_innovation_array_must'] = 20
+    mark.technological_innovation = technological_innovation_array_sum
+    total += technological_innovation_array_sum
+
+    # 技能竞赛、创新奖 权重 20%
+    # 定义一个集合接收所有的分数
+    mark_skills_competition_array = []
+    for item in skills_competition_array:
+        level = item.level
+        if level == 1:
+            temp = 100
+        elif level == 2:
+            temp = 80
+        elif level == 3:
+            temp = 60
+        elif level == 4:
+            temp = 40
+        elif level == 5:
+            temp = 60
+        elif level == 6:
+            temp = 50
+        elif level == 7:
+            temp = 40
+        elif level == 8:
+            temp = 30
+        elif level == 9:
+            temp = 40
+        elif level == 10:
+            temp = 35
+        elif level == 11:
+            temp = 30
+        else:
+            temp = 0
+        # 添加
+        mark_skills_competition_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_skills_competition_array = sorted(mark_skills_competition_array, reverse=True)[:3]
+    skills_competition_array_sum = sum(mark_skills_competition_array)
+    if skills_competition_array_sum > 100:
+        skills_competition_array_sum = 100
+    skills_competition_array_sum = skills_competition_array_sum * 20 / 100
+    ret["skills_competition_array_sum"] = skills_competition_array_sum
+    ret['skills_competition_array_must'] = 20
+    mark.skills_competition = skills_competition_array_sum
+    total += skills_competition_array_sum
+
+    # 荣誉奖章 权重 10%
+    # 定义一个集合接收所有的分数
+    mark_honour_array = []
+    for item in honour_array:
+        level = item.level
+        if level == 1:
+            temp = 100
+        elif level == 2:
+            temp = 60
+        elif level == 3:
+            temp = 30
+        else:
+            temp = 0
+        # 添加
+        mark_honour_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_honour_array = sorted(mark_honour_array, reverse=True)[:3]
+    honour_array_sum = sum(mark_honour_array)
+    if honour_array_sum > 100:
+        honour_array_sum = 100
+    honour_array_sum = honour_array_sum * 10 / 100
+    ret["honour_array_sum"] = honour_array_sum
+    ret['honour_array_must'] = 10
+    mark.honour = honour_array_sum
+    total += honour_array_sum
+
+    # 职称/职鉴 权重 5%
+    # 定义一个集合接收所有的分数
+    mark_professional_array = []
+    for item in professional_array:
+        level = item.level
+        if level == 1:
+            temp = 30
+        elif level == 2:
+            temp = 60
+        elif level == 3:
+            temp = 100
+        else:
+            temp = 0
+        # 添加
+        mark_professional_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_professional_array = sorted(mark_professional_array, reverse=True)[:1]
+    professional_array_sum = sum(mark_professional_array)
+    if professional_array_sum > 100:
+        professional_array_sum = 100
+    professional_array_sum = professional_array_sum * 5 / 100
+    ret["professional_array_sum"] = professional_array_sum
+    ret['professional_array_must'] = 5
+    mark.professional = professional_array_sum
+    total += professional_array_sum
+
+    # 学历/学位 权重 5%
+    # 定义一个集合接收所有的分数
+    mark_edu_array = []
+    for item in edu_array:
+        level = item.degree
+        if level == 1:
+            temp = 50
+        elif level == 2:
+            temp = 80
+        elif level == 3:
+            temp = 100
+        else:
+            temp = 0
+        # 添加
+        mark_edu_array.append(temp)
+    # 倒叙排序取最高的两个
+    mark_edu_array = sorted(mark_edu_array, reverse=True)[:1]
+    edu_array_sum = sum(mark_edu_array)
+    if edu_array_sum > 100:
+        edu_array_sum = 100
+    edu_array_sum = edu_array_sum * 10 / 100
+    ret["edu_array_sum"] = edu_array_sum
+    ret["edu_array_must"] = 10
+    mark.edu = edu_array_sum
+    total += edu_array_sum
+    mark.sum = total
+    mark.save()
+    ret['total'] = total
+    return ret
+
+
 def resume(request):
     that = request.myself
     ret = {'that': that}
@@ -563,12 +829,11 @@ def resume(request):
             ret["that"] = user
         else:
             return HttpResponse("服务器异常，没有该用户～")
+
     p_c_or_q_array = ProfessionalCertificationOrQualification.objects.filter(uid=user)
     ret['p_c_or_q_array'] = p_c_or_q_array
-
     thesis_works_array = ThesisWorks.objects.filter(uid=user)
     ret['thesis_works_array'] = thesis_works_array
-
     national_patent_array = NationalPatent.objects.filter(uid=user)
     ret['national_patent_array'] = national_patent_array
     technological_innovation_array = TechnologicalInnovation.objects.filter(uid=user)
@@ -577,6 +842,20 @@ def resume(request):
     ret['skills_competition_array'] = skills_competition_array
     honour_array = Honour.objects.filter(uid=user)
     ret['honour_array'] = honour_array
+    professional_array = Professional.objects.filter(uid=user)
+    ret['professional_array'] = professional_array
+    edu_array = Edu.objects.filter(uid=user)
+    ret['edu_array'] = edu_array
+    mark_ret = sum_mark(user, p_c_or_q_array=p_c_or_q_array,
+                        thesis_works_array=thesis_works_array,
+                        national_patent_array=national_patent_array,
+                        technological_innovation_array=technological_innovation_array,
+                        skills_competition_array=skills_competition_array,
+                        honour_array=honour_array,
+                        professional_array=professional_array,
+                        edu_array=edu_array)
+    ret['mark'] = mark_ret
+    print(mark_ret)
     return ops_render(request, "new/resume.html", ret)
 
 
@@ -735,7 +1014,48 @@ def resume_update(request):
         model.obtain_time = get_date_form_str(obtain_time)
         model.extra = req_dict.get('extra')
         model.save()
-    
-    
-    response = {'code': 200, 'msg': "更新成功", "data": {"type":type}}
+    elif type == "professional":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = Professional.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+
+        if not model:
+            model = Professional.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    elif type == "edu":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = Edu.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+        if not model:
+            model = Edu.objects.create(uid=user)
+        model.name = req_dict.get("name")
+        graduate_start_time = req_dict.get("graduate_start_time", "2000-12-12")
+        if not graduate_start_time:
+            graduate_start_time = "2000-12-12"
+        model.graduate_start_time = get_date_form_str(graduate_start_time)
+        graduate_end_time = req_dict.get("graduate_end_time", "2000-12-12")
+        if not graduate_end_time:
+            graduate_end_time = "2000-12-12"
+        model.graduate_end_time = get_date_form_str(graduate_end_time)
+        model.major = req_dict.get('major')
+        model.colleges = req_dict.get('colleges')
+        model.education = req_dict.get('education')
+        model.degree = req_dict.get('degree')
+        model.save()
+
+    response = {'code': 200, 'msg': "更新成功", "data": {"type": type}}
     return JsonResponse(response)
