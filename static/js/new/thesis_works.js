@@ -1,12 +1,12 @@
 ;
-var professional_certification_or_qualification_ops = {
+var thesis_works = {
     init: function () {
         this.eventBind();
     },
     eventBind: function () {
         var that = this;
         // 点击保存的时候提交到服务器
-        $("div.Professional_certification_or_qualification button.save").click(function (e) {
+        $("div.thesis_works button.save").click(function (e) {
             var button = $(this);
             var root = button.parents(".item-info");
             var describe_name = root.find(".edit input[name=describe_name]").val();
@@ -32,7 +32,7 @@ var professional_certification_or_qualification_ops = {
                 type: 'POST',
                 data: {
                     uid: uid,
-                    type: "professional_certification_or_qualification",
+                    type: "thesis_works",
                     describe_name: describe_name,
                     obtain_time: obtain_time,
                     level: level,
@@ -55,9 +55,10 @@ var professional_certification_or_qualification_ops = {
                 }
             });
         });
+        
     }
 };
 
 $(document).ready(function () {
-    professional_certification_or_qualification_ops.init();
+    thesis_works.init();
 });

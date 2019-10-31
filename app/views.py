@@ -2,7 +2,7 @@ from django.shortcuts import render
 from common.Helper import ops_render, get_date_form_str, getFormatDate
 from django.http import JsonResponse, HttpResponse
 
-from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification
+from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification,ThesisWorks,NationalPatent,TechnologicalInnovation,SkillsCompetition,Honour
 from common.UserService import UserService
 
 
@@ -563,11 +563,20 @@ def resume(request):
             ret["that"] = user
         else:
             return HttpResponse("服务器异常，没有该用户～")
-    print(uid)
-    print(request.GET)
     p_c_or_q_array = ProfessionalCertificationOrQualification.objects.filter(uid=user)
     ret['p_c_or_q_array'] = p_c_or_q_array
-    print(ProfessionalCertificationOrQualification.objects.all())
+
+    thesis_works_array = ThesisWorks.objects.filter(uid=user)
+    ret['thesis_works_array'] = thesis_works_array
+
+    national_patent_array = NationalPatent.objects.filter(uid=user)
+    ret['national_patent_array'] = national_patent_array
+    technological_innovation_array = TechnologicalInnovation.objects.filter(uid=user)
+    ret['technological_innovation_array'] = technological_innovation_array
+    skills_competition_array = SkillsCompetition.objects.filter(uid=user)
+    ret['skills_competition_array'] = skills_competition_array
+    honour_array = Honour.objects.filter(uid=user)
+    ret['honour_array'] = honour_array
     return ops_render(request, "new/resume.html", ret)
 
 
@@ -633,6 +642,100 @@ def resume_update(request):
         model.obtain_time = get_date_form_str(obtain_time)
         model.extra = req_dict.get('extra')
         model.save()
+    elif type == "thesis_works":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = ThesisWorks.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
 
-    response = {'code': 200, 'msg': "更新成功", "data": {}}
+        if not model:
+            model = ThesisWorks.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    elif type == "national_patent":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = NationalPatent.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+
+        if not model:
+            model = NationalPatent.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    elif type == "technological_innovation":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = TechnologicalInnovation.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+        if not model:
+            model = TechnologicalInnovation.objects.create(uid=user)
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    elif type == "skills_competition":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = SkillsCompetition.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+
+        if not model:
+            model = SkillsCompetition.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    elif type == "honour":
+        item_id = req_dict.get("item_id", "")
+        model = None
+        if item_id:
+            models = Honour.objects.filter(id=item_id)
+            if len(models) == 1:
+                model = models[0]
+
+        if not model:
+            model = Honour.objects.create(uid=user)
+
+        model.name = req_dict.get("describe_name")
+        model.level = req_dict.get("level")
+        obtain_time = req_dict.get("obtain_time", "2000-12-12")
+        if not obtain_time:
+            obtain_time = "2000-12-12"
+        model.obtain_time = get_date_form_str(obtain_time)
+        model.extra = req_dict.get('extra')
+        model.save()
+    
+    
+    response = {'code': 200, 'msg': "更新成功", "data": {"type":type}}
     return JsonResponse(response)
