@@ -37,9 +37,9 @@ var new_resume_ops = {
             var fd = new FormData();
             var uid = $("#my_uid").attr("uid");
             var data = {"target_id": $(this).attr('target_id')};
-            fd.append('username', 'root');
             fd.append('pic', file_obj);
             fd.append('uid', uid);
+            fd.append('type', "0");
             fd.append("data", JSON.stringify(data));
             $.ajax({
                 url: '/upload/pic',

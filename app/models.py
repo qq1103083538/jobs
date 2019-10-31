@@ -94,10 +94,10 @@ class Honour(models.Model):
     荣誉奖章
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"荣誉奖章")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"荣誉奖章",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'荣誉奖章'
@@ -112,10 +112,10 @@ class SkillsCompetition(models.Model):
     技能竞赛
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"技能竞赛")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"技能竞赛",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'技能竞赛'
@@ -130,10 +130,10 @@ class TechnologicalInnovation(models.Model):
     科技创新
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"科技创新")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"科技创新",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'科技创新'
@@ -148,10 +148,10 @@ class NationalPatent(models.Model):
     国家专利
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"国家专利")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"国家专利",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "国家发明专利"), (2, "实用行新型专利"), (3, "地厅省公司")), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'国家专利'
@@ -166,8 +166,8 @@ class ThesisWorks(models.Model):
     论文著作
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"论文著作")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"论文著作",default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间",null=True,blank=True,auto_now_add=True)
 
     level = models.IntegerField(verbose_name=u"等级", choices=((1, "在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(第一作者)"),
                                                              (2, "在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(合著者)"),
@@ -175,7 +175,7 @@ class ThesisWorks(models.Model):
                                                              (4, "在CN期刊上发表的论文(合著者)"),
                                                              (5, "著作第一主编"),
                                                              (6, "副主编或编委"),), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True)
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'论文著作'
@@ -199,7 +199,7 @@ class ProfessionalCertificationOrQualification(models.Model):
                                                              (4, "国内认证证书高级"),
                                                              (5, "国内认证证书中级"),
                                                              (6, "国内认证证书初级"),), default=1)
-    extra = models.CharField(verbose_name=u"额外的资料", max_length=100, blank=True, null=True,default="")
+    extra = models.CharField(verbose_name=u"额外的资料", max_length=255, blank=True, null=True,default="")
 
     class Mate:
         verbose_name = u'专业认证或资质'

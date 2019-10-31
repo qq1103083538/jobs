@@ -451,40 +451,63 @@
             {#       添加职称  end   #}
 
             {#       荣誉奖章  start    #}
-            <div class="honour">
+            <div class="honour item-info">
                 <div class="header">
                     <span class="text-left">荣誉奖章</span>
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加荣誉奖章
                     </a>
                 </div>
-                <div class="edu-list">
+                {% for item in honour_array %}
+                <div 
+                class="edu-list"
+                item_id="{{ item.id }}"
+                m_name="{{ item.name }}"
+                m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                m_level="{{ item.level }}"
+                m_img="{{ item.extra }}"
+                >
                     <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">荣誉奖章名字</label>
-                        <label class="col-lg-3">等级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2">
+                        <label class="col-lg-4">{{ item.name }}</label>
+                        <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                国家级
+                                {% elif item.level == 2 %}
+                                省,部,集团
+                                {% elif item.level == 3 %}
+                                地,厅,省公司
+                                {% elif item.level == 4 %}
+                                其他
+                                {% else %}
+                                未选择
+                                {% endif %}
+                        </label>
+                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                        <label class="col-lg-2  btn-edit hidden">
                             <a class="btn btn-w-m btn-outline btn-info pull-right">
                                 <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                             </a>
                         </label>
                     </div>
                 </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">荣誉奖章名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control" placeholder="荣誉奖章名"
-                                               value="{{ info.name }}">
+                                        <input type="text" name="describe_name"
+                                         class="form-control describe_name" placeholder="荣誉奖章名"
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="obtain_time" 
+                                        class="form-control obtain_time" placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -492,7 +515,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="level"
+                                            class="level form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
@@ -508,22 +532,17 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form class="upload_pic_wrap" target="upload_file"
+                                            <form 
+                                            id="upload_pic_wrap-from"
+                                            class="upload_pic_wrap" target="upload_file"
                                                   enctype="multipart/form-data"
                                                   method="POST" action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
+                                                    target_id="upload_pic_wrap-from"
                                                            accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -531,8 +550,13 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"
+                                        item_id="">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -545,40 +569,62 @@
             {#       荣誉奖章  end   #}
 
             {#       技能竞赛  start    #}
-            <div class="skills_competition">
+            <div class="skills_competition item-info">
                 <div class="header">
                     <span class="text-left">技能竞赛</span>
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加技能竞赛
                     </a>
                 </div>
-                <div class="edu-list">
+                {% for item in skills_competition_array %}
+                <div class="edu-list"
+                    item_id="{{ item.id }}"
+                    m_name="{{ item.name }}"
+                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                    m_level="{{ item.level }}"
+                    m_img="{{ item.extra }}"
+                    >
                     <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">技能竞赛名字</label>
-                        <label class="col-lg-3">等级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2">
+                        <label class="col-lg-4">{{ item.name }}</label>
+                        <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                国家级
+                                {% elif item.level == 2 %}
+                                省,部,集团
+                                {% elif item.level == 3 %}
+                                地,厅,省公司
+                                {% elif item.level == 4 %}
+                                其他
+                                {% else %}
+                                未选择
+                                {% endif %}
+                        </label>
+                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                        <label class="col-lg-2 btn-edit hidden">
                             <a class="btn btn-w-m btn-outline btn-info pull-right">
                                 <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                             </a>
                         </label>
                     </div>
                 </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">技能竞赛名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control" placeholder="技能竞赛名"
-                                               value="{{ info.name }}">
+                                        <input type="text" name="describe_name" 
+                                        class="form-control describe_name" placeholder="技能竞赛名"
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="obtain_time" 
+                                        class="form-control obtain_time" placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -586,7 +632,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="level" 
+                                        class="level form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
@@ -602,22 +649,18 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form class="upload_pic_wrap" target="upload_file"
+                                            <form 
+                                            id="upload_pic_wrap-from"
+                                            class="upload_pic_wrap" 
+                                            target="upload_file"
                                                   enctype="multipart/form-data"
                                                   method="POST" action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
+                                                    target_id="upload_pic_wrap-from"
                                                            accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -625,8 +668,13 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"
+                                        item_id="">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -639,40 +687,64 @@
             {#       技能竞赛  end   #}
 
             {#       科技创新  start    #}
-            <div class="technological_innovation">
+            <div class="technological_innovation item-info">
                 <div class="header">
                     <span class="text-left">科技创新</span>
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加科技创新
                     </a>
                 </div>
-                <div class="edu-list">
+                {% for item in technological_innovation_array %}
+                <div class="edu-list"
+                    item_id="{{ item.id }}"
+                    m_name="{{ item.name }}"
+                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                    m_level="{{ item.level }}"
+                    m_img="{{ item.extra }}"
+                    >
                     <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">科技创新名字</label>
-                        <label class="col-lg-3">等级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2">
+                        <label class="col-lg-4">{{ item.name }}</label>
+                        <label class="col-lg-3">
+                            {% if item.level == 1 %}
+                            国家级
+                            {% elif item.level == 2 %}
+                            省,部,集团
+                            {% elif item.level == 3 %}
+                            地,厅,省公司
+                            {% elif item.level == 4 %}
+                            其他
+                            {% else %}
+                            未选择
+                            {% endif %}
+                        </label>
+                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                        <label class="col-lg-2 btn-edit hidden">
                             <a class="btn btn-w-m btn-outline btn-info pull-right">
                                 <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                             </a>
                         </label>
                     </div>
                 </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">科技创新名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control" placeholder="科技创新"
-                                               value="{{ info.name }}">
+                                        <input type="text" name="describe_name" 
+                                            class="form-control describe_name" 
+                                            placeholder="科技创新"
+                                            value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="obtain_time" 
+                                        class="form-control obtain_time" 
+                                        placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -680,7 +752,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="level" 
+                                            class="form-control select2-hidden-accessible level"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
@@ -696,22 +769,19 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form class="upload_pic_wrap" target="upload_file"
-                                                  enctype="multipart/form-data"
-                                                  method="POST" action="{% build_url '/upload/pic' %}">
+                                            <form 
+                                                id="upload_pic_wrap-from"
+                                                class="upload_pic_wrap" 
+                                                target="upload_file"
+                                                enctype="multipart/form-data"
+                                                method="POST" 
+                                                action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
-                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                        target_id="upload_pic_wrap-from"
+                                                        accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -719,8 +789,13 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"
+                                        item_id="">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -733,40 +808,67 @@
             {#       科技创新  end   #}
 
             {#       国家专利  start    #}
-            <div class="national_patent">
+            <div class="national_patent item-info">
                 <div class="header">
                     <span class="text-left">国家专利</span>
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加国家专利
                     </a>
                 </div>
-                <div class="edu-list">
+                {% for item in national_patent_array %}
+                <div class="edu-list"
+                    item_id="{{ item.id }}"
+                    m_name="{{ item.name }}"
+                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                    m_level="{{ item.level }}"
+                    m_img="{{ item.extra }}"
+                    >
                     <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">国家专利名字</label>
-                        <label class="col-lg-3">等级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2">
+                        <label class="col-lg-4">{{ item.name }}</label>
+                        <label class="col-lg-3">
+                            {% if item.level == 1 %}
+                            国家发明专利
+                            {% elif item.level == 2 %}
+                            实用行新型专利
+                            {% elif item.level == 3 %}
+                            地,厅,省公司
+                            {% elif item.level == 4 %}
+                            其他
+                            {% else %}
+                            未选择
+                            {% endif %}
+                        </label>
+                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                        <label class="col-lg-2 btn-edit hidden">
                             <a class="btn btn-w-m btn-outline btn-info pull-right">
                                 <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                             </a>
                         </label>
                     </div>
                 </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">国家专利名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control" placeholder="国家专利"
-                                               value="{{ info.name }}">
+                                        <input type="text" 
+                                        name="describe_name"
+                                        class="form-control describe_name" 
+                                        placeholder="国家专利"
+                                        value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" 
+                                        name="obtain_time" 
+                                        class="form-control obtain_time" 
+                                        placeholder="" 
+                                        value="">
                                     </div>
                                 </div>
 
@@ -774,9 +876,10 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
-                                                tabindex="-1"
-                                                aria-hidden="true">
+                                        <select name="level" 
+                                            class="form-control select2-hidden-accessible level"
+                                            tabindex="-1"
+                                            aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
                                             <option value="1">国家发明专利</option>
                                             <option value="2">实用行新型专利</option>
@@ -790,22 +893,20 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form class="upload_pic_wrap" target="upload_file"
-                                                  enctype="multipart/form-data"
-                                                  method="POST" action="{% build_url '/upload/pic' %}">
+                                            <form 
+                                                id="upload_pic_wrap-from"
+                                                class="upload_pic_wrap" 
+                                                target="upload_file"
+                                                enctype="multipart/form-data"
+                                                method="POST" 
+                                                action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
-                                                    <input type="file" name="pic"
-                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                    <input type="file" 
+                                                        name="pic"
+                                                        accept="image/png, image/jpeg, image/jpg,image/gif"
+                                                        target_id="upload_pic_wrap-from">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -813,8 +914,13 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"
+                                        item_id="">保存并更新</button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -834,19 +940,43 @@
                         <i class="fa fa-plus"></i>&nbsp;添加论文著作
                     </a>
                 </div>
-                <div class="edu-list" m_id="1" m_name="厂长" m_obtion_time="2012-10-12" m_level="1"
-                     m_img="http://www.baidu.com#@#http://www.google.com">
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">论文著作名字</label>
-                        <label class="col-lg-3">等级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2 btn-edit hidden">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                {% for item in thesis_works_array %}
+                    <div class="edu-list" 
+                        item_id="{{ item.id }}"
+                        m_name="{{ item.name }}"
+                        m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                        m_level="{{ item.level }}"
+                        m_img="{{ item.extra }}"
+                        >
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(第一作者)
+                                {% elif item.level == 2 %}
+                                在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(合著者)
+                                {% elif item.level == 3 %}
+                                在CN期刊上发表的论文(第一作者)
+                                {% elif item.level == 4 %}
+                                在CN期刊上发表的论文(合著者)
+                                {% elif item.level == 5 %}
+                                著作第一主编
+                                {% elif item.level == 6 %}
+                                副主编或编委
+                                {% else %}
+                                未选择
+                                {% endif %}
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
+                
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
@@ -855,13 +985,13 @@
                                     <label class="col-lg-2 control-label">论文著作:</label>
                                     <div class="col-lg-10">
                                         <input type="text" name="describe_name" class="form-control describe_name"
-                                               placeholder="论文著作" value="{{ info.name }}">
+                                               placeholder="论文著作" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label obtain_time">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control obtain_time" placeholder=""
+                                        <input type="date" name="obtain_time" class="form-control obtain_time" placeholder=""
                                                value="">
                                     </div>
                                 </div>
@@ -893,16 +1023,9 @@
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
-                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif"
+                                                           target_id="thesis_works-from">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -910,11 +1033,11 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"  item_id="">保存并更新</button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
@@ -937,11 +1060,12 @@
                     </a>
                 </div>
                 {% for item in p_c_or_q_array %}
-                    <div class="edu-list" item_id="{{ item.id }}"
-                         m_name="{{ item.name }}"
-                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                         m_level="{{ item.level }}"
-                         m_img="{{ item.extra }}">
+                    <div class="edu-list" 
+                        item_id="{{ item.id }}"
+                        m_name="{{ item.name }}"
+                        m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                        m_level="{{ item.level }}"
+                        m_img="{{ item.extra }}">
                         <div class="row mg-t20 wrap_first_set item" style="">
                             <label class="col-lg-4">{{ item.name }}</label>
                             <label class="col-lg-3">
@@ -980,7 +1104,7 @@
                                     <label class="col-lg-2 control-label">名字:</label>
                                     <div class="col-lg-10">
                                         <input type="text" name="describe_name" class="form-control describe_name"
-                                               placeholder="名字" value="{{ info.name }}">
+                                               placeholder="名字" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1022,14 +1146,6 @@
                                                            accept="image/png, image/jpeg, image/jpg,image/gif"
                                                            target_id="Professional_certification_or_qualification-from">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -1043,7 +1159,7 @@
                                         </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
@@ -1074,4 +1190,11 @@
     <script src="{% build_static_url '/js/new/resume.js' %}"></script>
     <script src="{% build_static_url '/js/new/user-info.js' %}"></script>
     <script src="{% build_static_url '/js/new/professional_certification_or_qualification.js' %}"></script>
+    
+    <script src="{% build_static_url '/js/new/thesis_works.js' %}"></script>
+    <script src="{% build_static_url '/js/new/national_patent.js' %}"></script>
+    <script src="{% build_static_url '/js/new/technological_innovation.js' %}"></script>
+    <script src="{% build_static_url '/js/new/skills_competition.js' %}"></script>
+    <script src="{% build_static_url '/js/new/honour.js' %}"></script>
+    
 {% endblock %}
