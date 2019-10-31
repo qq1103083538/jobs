@@ -121,7 +121,7 @@ var new_resume_ops = {
             }
             var imgs = m_img.split("#@#");
             for (var i = 0; i < imgs.length; i++) {
-                var html = '<img src="/static/' + imgs[i] + '"/>'
+                var html = '<img src="/static' + imgs[i] + '"/>'
                     + '<span class="fa fa-times-circle del del_image" data="' + imgs[i] + '"></span>';
                 // if ($(" .pic-each").size() > 0) {
                 //     $(".upload_pic_wrap .pic-each").html(html);
