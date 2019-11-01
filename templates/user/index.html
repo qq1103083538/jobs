@@ -44,16 +44,6 @@
                             {% endfor %}
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <select name="sort" class="form-control inline">
-                            <option value="-1">排序</option>
-                            {% for tmp_key in sorts %}
-                                <option value="{{ tmp_key.id }}" {% if tmp_key.id == sort_status %}
-                                        selected {% endif %} >{{ tmp_key.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
                 </div>
             </form>
 
@@ -65,7 +55,7 @@
                     <th>姓名</th>
                     <th>账号</th>
                     <th>报名专业</th>
-                    <th>报名时间</th>
+                    <th>报名时间<i class="fa fa-fw fa-sort" style="color: #0d8ddb"></i></th>
                     <th>分数</th>
                     <th>操作</th>
                 </tr>
@@ -77,13 +67,27 @@
                             <td>{{ item.id }}</td>
                             <td>{{ item.nickname }}</td>
                             <td>{{ item.username }}</td>
-                            <td>{{ item.enroll_name }}</td>
-                            <td>{{ item.enroll_time }}</td>
-                            <td>{{ item.mark }}</td>
+                            <td>{{ item.add_time }}</td>
+                            <td>{{ item.add_time }}</td>
+                            <td>{{ item.add_time }}</td>
                             <td>
-                                <a href="{% build_url '/resume' %}?uid={{ item.id }}">
+                                <a href="{% build_url '/cms/info' %}?id={{ item.id }}">
                                     <i class="fa fa-eye fa-lg"></i>
                                 </a>
+
+                                {% if item.status == 1 %}
+                                    <a class="m-l" href="{% build_url '/cms/set' %}?id={{ item.id }}">
+                                        <i class="fa fa-edit fa-lg"></i>
+                                    </a>
+
+                                    <a class="m-l remove" href="javascript:void(0);" data="{{ item.id }}">
+                                        <i class="fa fa-trash fa-lg"></i>
+                                    </a>
+                                {% else %}
+                                    <a class="m-l recover" href="javascript:void(0);" data="{{ item.id }}">
+                                        <i class="fa fa-rotate-left fa-lg"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

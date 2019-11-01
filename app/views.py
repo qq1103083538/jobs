@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from common.Helper import ops_render, get_date_form_str, getFormatDate,get_current_date
+from common.Helper import ops_render, get_date_form_str, getFormatDate
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 
 from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification, ThesisWorks, \
@@ -60,6 +60,7 @@ def login(request):
             return JsonResponse(response)
 
         users = User.objects.filter(username=username, type=login_type)
+        print(users)
         if users:
             user = users[0]
             salt = user.salt
@@ -509,33 +510,20 @@ def user(request):
     rep_admins = []
 
     admins = User.objects.filter(type=1)
-
+    if sort == 0:
+        pass
+    elif sort == 1:
+        admins = admins.order_by('')
+    elif sort == 2:
+        admins = admins.order_by("")
+    elif sort == 3:
+        admins = admins.order_by("-add_time")
+    elif sort == 4:
+        admins = admins.order_by("add_time")
 
     for admin in admins:
-        enroll_name = "没有报名"
-        enroll_time = get_date_form_str(detester="1900-1-1",format="%Y-%m-%d")
-        enrolls = Enroll.objects.filter(uid=admin)
-        second_id = -1
-        if len(enrolls) == 1:
-            enroll_name = enrolls[0].major.name
-            enroll_time = enrolls[0].add_time
-            second_id = enrolls[0].major
-        marks = Mark.objects.filter(uid=admin)
-        mark = 0
-        
-        if len(marks) == 1:
-            mark = marks[0].sum
-            
-        item = {"id": admin.id, 
-            "nickname": admin.nickname, 
-            "username": admin.username, 
-            "add_time": admin.add_time,
-            "enroll_name":enroll_name,
-            "enroll_time":enroll_time,
-            "mark":mark,
-            "status": admin.status,
-            "major_second_id":second_id
-            }
+        item = {"id": admin.id, "nickname": admin.nickname, "username": admin.username, "add_time": admin.add_time,
+                "status": admin.status}
         rep_admins.append(item)
 
     major_class_array = MajorClass.objects.all()
@@ -553,27 +541,8 @@ def user(request):
     else:
         item_major_first_array = major_first_array
 
-    if sort == 0:
-        pass
-    elif sort == 1:
-        rep_admins = sorted(rep_admins,key=lambda x:x['enroll_time'],reverse=True)
-    elif sort == 2:
-        rep_admins = sorted(rep_admins,key=lambda x:x['enroll_time'],reverse=False)
-    elif sort == 3:
-        rep_admins = sorted(rep_admins,key=lambda x:x['mark'],reverse=True)
-    elif sort == 4:
-        rep_admins = sorted(rep_admins,key=lambda x:x['mark'],reverse=False)
-
-    sorts = [
-        {"id":1,"name":"报名时间倒叙"},
-        {"id":2,"name":"报名时间顺序"},
-        {"id":3,"name":"分数倒序"},
-        {"id":4,"name":"分数顺序"}
-    ]
-
     ids = list([first_id.id for first_id in item_major_first_array])
     major_second_array = MajorSecond.objects.filter(major_first_id__in=ids)
-
     rep = {
         "list": rep_admins,
         "classs": major_class_array,
@@ -581,61 +550,13 @@ def user(request):
         "seconds": major_second_array,
         "c": c,
         "f": f,
-        "s": s,
-        "sorts":sorts,
-        "sort_status":sort
+        "s": s
     }
     return ops_render(request, "user/index.html", rep)
 
 
-def add_major(request):
-    # uid:2
-    # major_second_id:3
-    try:
-        uid = request.POST.get("uid")
-        major_second_id = request.POST.get("major_second_id")
-        Enroll.objects.create(uid_id=uid,major_id=major_second_id)
-        response = {'code': 200, 'msg': "申报成功～", "data": {}}
-        return JsonResponse(response)
-    except:
-        response = {'code': -1, 'msg': "申报失败～", "data": {}}
-        return JsonResponse(response)
-    
 def new(request):
-    major_second_array = MajorSecond.objects.all()
-
-    majors = []
-    for major_second_item in major_second_array:
-        major_first = major_second_item.major_first
-        major_first_id = major_second_item.major_first.id
-        major_first_name = major_second_item.major_first.name
-        major_class = major_first.major_class
-        major_class_id = major_class.id
-        major_class_name = major_class.name
-        major_second_id = major_second_item.id
-        major_second_name = major_second_item.name
-        major_second_declare_start_time = major_second_item.declare_start_time
-        major_second_declare_end_time = major_second_item.declare_end_time
-        major_second_review_start_time = major_second_item.review_start_time
-        major_second_review_end_time = major_second_item.review_end_time
-        major_second_add_time = major_second_item.add_time
-        majors.append({
-            "major_first_id":major_first_id,
-            "major_first_name":major_first_name,
-            "major_class_id":major_class_id,
-            "major_class_name":major_class_name,
-            "major_second_id":major_second_id,
-            "major_second_name":major_second_name,
-            "major_second_declare_start_time":major_second_declare_start_time,
-            "major_second_declare_end_time":major_second_declare_end_time,
-            "major_second_review_start_time":major_second_review_start_time,
-            "major_second_review_end_time":major_second_review_end_time,
-            "major_second_add_time":major_second_add_time,
-        })
-    ret = {
-        "majors":majors
-    }
-    return ops_render(request, "new/index.html",ret)
+    return ops_render(request, "new/index.html")
 
 
 def sum_mark(user,
@@ -943,8 +864,7 @@ def resume(request):
                         professional_array=professional_array,
                         edu_array=edu_array)
     ret['mark'] = mark_ret
-    major_second = enrolls.major_second
-    ret['major_second'] = enrolls.major_second
+    print(mark_ret)
     return ops_render(request, "new/resume.html", ret)
 
 
@@ -965,8 +885,9 @@ def resume_update(request):
     else:
         return HttpResponse("服务器异常，没有该用户～")
     if type == "user-info":
-        user.nickname = req_dict.get("nickname","")
-        user.gender = req_dict.get("gender","")
+        user.nickname = req_dict.get("nickname")
+        user.gender = req_dict.get("gender")
+        print(req_dict.get("birthday"))
         birthday = req_dict.get("birthday")
         if not birthday:
             birthday = "2000-12-12"
@@ -975,19 +896,19 @@ def resume_update(request):
         if not enter_the_employment_time:
             enter_the_employment_time = "2000-12-12"
         user.enter_the_employment_time = get_date_form_str(enter_the_employment_time)
-        user.household_register_province = req_dict.get("household_register_province","")
-        user.household_register_city = req_dict.get("household_register_city","")
-        user.live_province = req_dict.get("live_province","")
-        user.live_city = req_dict.get("live_city","")
-        user.live_district = req_dict.get("live_district","")
-        user.mobile = req_dict.get("mobile","")
-        user.email = req_dict.get("email","")
-        user.work_unit = req_dict.get("work_unit","")
-        user.department = req_dict.get("department","")
-        user.marriage_status = req_dict.get("marriage_status","")
-        user.politics = req_dict.get("politics","")
-        user.globetrotters = req_dict.get("globetrotters","")
-        user.portrait = req_dict.get("portrait","")
+        user.household_register_province = req_dict.get("household_register_province")
+        user.household_register_city = req_dict.get("household_register_city")
+        user.live_province = req_dict.get("live_province")
+        user.live_city = req_dict.get("live_city")
+        user.live_district = req_dict.get("live_district")
+        user.mobile = req_dict.get("mobile")
+        user.email = req_dict.get("email")
+        user.work_unit = req_dict.get("work_unit")
+        user.department = req_dict.get("department")
+        user.marriage_status = req_dict.get("marriage_status")
+        user.politics = req_dict.get("politics")
+        user.globetrotters = req_dict.get("globetrotters")
+        user.portrait = req_dict.get("portrait")
         user.save()
         pass
     elif type == "professional_certification_or_qualification":

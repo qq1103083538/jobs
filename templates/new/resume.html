@@ -7,32 +7,7 @@
 
     <div class="resume">
         <div class="resume-tabs-wrapper">
-                <div class="edu-list user_info">
-                    <div class="row mg-t20 wrap_first_set item" style="padding-left: 30px;">
-                        <div class="col-lg-8">
-                            <p class="profile-pre-name clearfix">
-                                <span title="{{ that.nickname }}" class="fl name">{{ that.nickname }}</span>
-                                <span class="profile-pre-name__update-time">更新时间：{{ that.update_time }}</span>
-                            </p>
-                            <p class="profile-pre-info">
-                            <span class="profile-pre-info-txt">
-                                {% if that.gender == "male" %}
-                                    男
-                                {% elif that.gender == "female" %}
-                                    女
-                                {% else %}
-                                    未知
-                                {% endif %}
-                            </span>
-                                <span class="profile-pre-info-txt">
-                                {% date_to_now_from_year that.birthday %}
-                            </span>
-                                <span class="profile-pre-info-txt">{{ that.live_city }}</span>
-                                <span class="profile-pre-info-txt">{{ that.globetrotters }}海外经验</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+
         </div>
 
         <div class="zp-left-container">
