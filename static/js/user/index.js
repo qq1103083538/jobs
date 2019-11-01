@@ -15,9 +15,6 @@ var food_cat_ops = {
         $(".wrap_search select[name=s]").change(function () {
             $(".wrap_search").submit();
         });
-        $(".wrap_search select[name=sort]").change(function () {
-            $(".wrap_search").submit();
-        });
     }
 
 };
