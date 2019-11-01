@@ -50,7 +50,7 @@ class User(models.Model):
     id_card = models.CharField(
         max_length=18, verbose_name=u"身份证号码", default="")
     portrait = models.CharField(
-        max_length=300, blank=True, null=True, verbose_name=u"头像", default="")
+        max_length=300, blank=True, null=True, verbose_name=u"头像", default="/upload/common/portrait.jpg")
     salt = models.CharField(max_length=36, verbose_name="密码密钥")
     type = models.IntegerField(
         choices=((1, u'用户'), (2, u'管理员')), default=1, verbose_name=u"用户权限")

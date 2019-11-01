@@ -7,32 +7,38 @@
 
     <div class="resume">
         <div class="resume-tabs-wrapper">
-                <div class="edu-list user_info">
-                    <div class="row mg-t20 wrap_first_set item" style="padding-left: 30px;">
-                        <div class="col-lg-8">
-                            <p class="profile-pre-name clearfix">
-                                <span title="{{ that.nickname }}" class="fl name">{{ that.nickname }}</span>
-                                <span class="profile-pre-name__update-time">更新时间：{{ that.update_time }}</span>
-                            </p>
-                            <p class="profile-pre-info">
+            <div class="edu-list user_info">
+                <div class="row mg-t20 wrap_first_set item">
+                    <div class="col-lg-8">
+                        <p class="profile-pre-name clearfix">
+                            <span title="" class="fl name">当前申请专业：</span>
+                            <span title="{{ major_second.name }}"
+                                  class="fl name">{{ major_second.name }} ({{ major_second.major_first.name }}#{{ major_second.major_first.major_class.name }})</span>
+
+                            {% if not is_update %}
+                                <span title="" class="fl name" style="color: red">申报时间已经结束，需要修改请联系管理员.</span>
+                            {% endif %}
+                        </p>
+                        <p class="profile-pre-info">
                             <span class="profile-pre-info-txt">
-                                {% if that.gender == "male" %}
-                                    男
-                                {% elif that.gender == "female" %}
-                                    女
-                                {% else %}
-                                    未知
-                                {% endif %}
+                                申报开始时间:<span>{{ major_second.declare_start_time }}</span>
                             </span>
-                                <span class="profile-pre-info-txt">
-                                {% date_to_now_from_year that.birthday %}
+                            <span class="profile-pre-info-txt">
+                                申报结束时间:<span style="color: orangered">{{ major_second.declare_end_time }}</span>
                             </span>
-                                <span class="profile-pre-info-txt">{{ that.live_city }}</span>
-                                <span class="profile-pre-info-txt">{{ that.globetrotters }}海外经验</span>
-                            </p>
-                        </div>
+                        </p>
+
+                        <p class="profile-pre-info">
+                            <span class="profile-pre-info-txt">
+                                审核开始时间:<span>{{ major_second.review_start_time }}</span>
+                            </span>
+                            <span class="profile-pre-info-txt">
+                                审核结束时间:<span>{{ major_second.review_end_time }}</span>
+                            </span>
+                        </p>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div class="zp-left-container">
@@ -264,9 +270,11 @@
                             </p>
                         </div>
                         <div class="col-lg-2 edit">
+                            {% if is_update %}
                             <a class="btn btn-w-m btn-outline btn-info pull-right">
                                 <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -277,9 +285,11 @@
             <div class="edu item-info">
                 <div class="header">
                     <span class="text-left">教育经历</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加教育经历
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in edu_array %}
                     <div class="edu-list item-info"
@@ -322,9 +332,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.graduate_start_time %}#{% p_to_js_date item.graduate_end_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -428,9 +440,11 @@
             <div class="professional item-info">
                 <div class="header">
                     <span class="text-left">职称/职鉴</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right add-info">
                         <i class="fa fa-plus"></i>&nbsp;添加职称/职鉴
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in professional_array %}
                     <div class="edu-list"
@@ -456,9 +470,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -543,9 +559,11 @@
             <div class="honour item-info">
                 <div class="header">
                     <span class="text-left">荣誉奖章</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加荣誉奖章
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in honour_array %}
                     <div
@@ -573,9 +591,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2  btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -662,9 +682,11 @@
             <div class="skills_competition item-info">
                 <div class="header">
                     <span class="text-left">技能竞赛</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加技能竞赛
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in skills_competition_array %}
                     <div class="edu-list"
@@ -705,9 +727,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -803,9 +827,11 @@
             <div class="technological_innovation item-info">
                 <div class="header">
                     <span class="text-left">科技创新</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加科技创新
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in technological_innovation_array %}
                     <div class="edu-list"
@@ -842,9 +868,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -940,9 +968,11 @@
             <div class="national_patent item-info">
                 <div class="header">
                     <span class="text-left">国家专利</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加国家专利
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in national_patent_array %}
                     <div class="edu-list"
@@ -967,9 +997,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -1063,9 +1095,11 @@
             <div class="thesis_works item-info">
                 <div class="header">
                     <span class="text-left">论文著作</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加论文著作
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in thesis_works_array %}
                     <div class="edu-list"
@@ -1096,9 +1130,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -1184,9 +1220,11 @@
             <div class="Professional_certification_or_qualification item-info">
                 <div class="header">
                     <span class="text-left">专业认证或资质</span>
+                    {% if is_update %}
                     <a class="btn btn-w-m btn-outline btn-primary pull-right add-info">
                         <i class="fa fa-plus"></i>&nbsp;添加专业认证或资质
                     </a>
+                    {% endif %}
                 </div>
                 {% for item in p_c_or_q_array %}
                     <div class="edu-list"
@@ -1216,9 +1254,11 @@
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
                             <label class="col-lg-2 btn-edit hidden">
+                                {% if is_update %}
                                 <a class="btn btn-w-m btn-outline btn-info pull-right">
                                     <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
                                 </a>
+                                {% endif %}
                             </label>
                         </div>
                     </div>
@@ -1366,7 +1406,7 @@
                     </div>
                 </div>
 
-                 <label>论文著作</label>
+                <label>论文著作</label>
                 <div class="progress">
                     <label>{{ mark.thesis_works_array_sum }}({{ mark.thesis_works_array_must }})</label>
                     <div class="progress-bar progress-bar-success" role="progressbar"
@@ -1376,7 +1416,7 @@
                     </div>
                 </div>
 
-                 <label>专业认证或资质</label>
+                <label>专业认证或资质</label>
                 <div class="progress">
                     <label>{{ mark.p_c_or_q_array_sum }}({{ mark.p_c_or_q_must }})</label>
                     <div class="progress-bar progress-bar-success" role="progressbar"
