@@ -28,6 +28,17 @@ def buildImageUrl(path):
 def p_to_js_date(date):
     return getFormatDate(date, "%Y-%m-%d")
 
+@register.simple_tag
+def p_to_js_date_min(date):
+    return getFormatDate(date)
+
+@register.simple_tag
+def is_commint(start_data,end_data):
+    n_time = datetime.datetime.now()
+    if n_time>start_data and n_time<end_data:
+        return ""
+    else:
+        return "disabled"
 
 def month_differ(x, y):
     """暂不考虑day, 只根据month和year计算相差月份
@@ -41,6 +52,7 @@ def month_differ(x, y):
     """
     month_differ = abs((x.year - y.year) * 12 + (x.month - y.month) * 1)
     return month_differ
+
 
 
 @register.simple_tag
