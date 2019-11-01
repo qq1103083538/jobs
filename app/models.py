@@ -43,7 +43,8 @@ class User(models.Model):
     marriage_status = models.CharField(verbose_name=u"婚姻状况", blank=True, null=True, max_length=32,
                                        choices=(("未婚", "未婚"), ("已婚", "已婚"), ("离异", "离异")), default="未婚")
     politics = models.CharField(verbose_name=u"政治面貌", blank=True, null=True, max_length=32,
-                                choices=(("群众", "群众"), ("团员", "团员"), ("中共党员(含预备党员)", "中共党员(含预备党员)"), ("民主党派", "民主党派"), ("无党派人士", "无党派人士")), default="群众")
+                                choices=(("群众", "群众"), ("团员", "团员"), ("中共党员(含预备党员)", "中共党员(含预备党员)"), ("民主党派", "民主党派"),
+                                         ("无党派人士", "无党派人士")), default="群众")
     globetrotters = models.CharField(verbose_name=u"海外经历", blank=True, null=True, max_length=32,
                                      choices=(("有", "有"), ("无", "无")), default="无")
     id_card = models.CharField(
@@ -68,19 +69,30 @@ class User(models.Model):
 
 class Edu(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"学校名称")
+    name = models.CharField(max_length=32, verbose_name=u"学校名称", default="")
 
-    graduate_start_time = models.DateTimeField(
-        default=datetime.now, verbose_name=u"开始时间")
-    graduate_end_time = models.DateTimeField(
-        default=datetime.now, verbose_name=u"结束时间")
-    major = models.CharField(max_length=16, verbose_name=u"专业")
-    major = models.CharField(max_length=16, verbose_name=u"专业")
-    colleges = models.CharField(max_length=16, verbose_name=u"院校")
-    education = models.CharField(
-        max_length=100, choices=(), default=u"", verbose_name=u"学历")
-    degree = models.CharField(
-        max_length=100, choices=(), default=u"", verbose_name=u"学位")
+    graduate_start_time = models.DateTimeField(verbose_name=u"开始时间", null=True, blank=True, auto_now_add=True)
+    graduate_end_time = models.DateTimeField(verbose_name=u"结束时间", null=True, blank=True, auto_now_add=True)
+    major = models.CharField(max_length=32, verbose_name=u"专业", default="")
+    colleges = models.CharField(max_length=32, verbose_name=u"院校", default="")
+    education = models.IntegerField(choices=(
+        (1, u"初中"),
+        (2, u"中技"),
+        (3, u"高中"),
+        (4, u"大专"),
+        (5, u"本科"),
+        (6, u"硕士"),
+        (7, u"MBA"),
+        (8, u"EMBA"),
+        (9, u"博士"),
+        (10, u"其他")
+    ), default=1, verbose_name=u"学历")
+    degree = models.IntegerField(choices=(
+        (1, "学士学位"),
+        (2, "硕士学位"),
+        (3, "博士学位"),
+        (4, "其他"),
+    ), default=1, verbose_name=u"学位")
 
     class Mate:
         verbose_name = u'教育'
@@ -95,12 +107,12 @@ class Professional(models.Model):
     职称/职鉴
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
-    name = models.CharField(max_length=32, verbose_name=u"职称/职鉴")
-    obtain_time = models.DateTimeField(verbose_name=u"获取时间")
+    name = models.CharField(max_length=32, verbose_name=u"职称/职鉴", default="")
+    obtain_time = models.DateTimeField(verbose_name=u"获取时间", null=True, blank=True, auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=(
         (1, "初级"), (2, "中级(中级技师)"), (3, "高级(高级技师)")), default=1)
     extra = models.CharField(verbose_name=u"额外的资料",
-                             max_length=100, blank=True, null=True)
+                             max_length=255, blank=True, null=True, default="")
 
     class Mate:
         verbose_name = u'职称/职鉴'
@@ -119,7 +131,9 @@ class Honour(models.Model):
     obtain_time = models.DateTimeField(
         verbose_name=u"获取时间", null=True, blank=True, auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=(
-        (1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
+        (1, "国家级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)"),
+        (2, "省、部、集团级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)"),
+        (3, "地、厅、省公司级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)")), default=1)
     extra = models.CharField(verbose_name=u"额外的资料",
                              max_length=255, blank=True, null=True, default="")
 
@@ -140,7 +154,18 @@ class SkillsCompetition(models.Model):
     obtain_time = models.DateTimeField(
         verbose_name=u"获取时间", null=True, blank=True, auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=(
-        (1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
+        (1, "国家级(一等奖)"),
+        (2, "国家级(二等奖)"),
+        (3, "国家级(三等奖)"),
+        (4, "国家级(优秀奖或团体奖)"),
+        (5, "省、部、集团级(一等奖)"),
+        (6, "省、部、集团级(二等奖)"),
+        (7, "省、部、集团级(三等奖)"),
+        (8, "省、部、集团级(优秀奖或团体奖)"),
+        (9, "地、厅、省公司级(一等奖)"),
+        (10, "地、厅、省公司级(二等奖)"),
+        (11, "地、厅、省公司级(三等奖)")
+    ), default=1)
     extra = models.CharField(verbose_name=u"额外的资料",
                              max_length=255, blank=True, null=True, default="")
 
@@ -161,7 +186,16 @@ class TechnologicalInnovation(models.Model):
     obtain_time = models.DateTimeField(
         verbose_name=u"获取时间", null=True, blank=True, auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=(
-        (1, "国家级"), (2, "省部集团"), (3, "地厅省公司")), default=1)
+        (1, "国家级(一等奖)"),
+        (2, "国家级(二等奖)"),
+        (3, "国家级(三等奖)"),
+        (4, "省、部、集团级(一等奖)"),
+        (5, "省、部、集团级(二等奖)"),
+        (6, "省、部、集团级(三等奖)"),
+        (7, "地、厅、省公司级(已等奖)"),
+        (8, "地、厅、省公司级(已等奖)"),
+        (9, "地、厅、省公司级(已等奖)"),
+    ), default=1)
     extra = models.CharField(verbose_name=u"额外的资料",
                              max_length=255, blank=True, null=True, default="")
 
@@ -182,7 +216,7 @@ class NationalPatent(models.Model):
     obtain_time = models.DateTimeField(
         verbose_name=u"获取时间", null=True, blank=True, auto_now_add=True)
     level = models.IntegerField(verbose_name=u"等级", choices=(
-        (1, "国家发明专利"), (2, "实用行新型专利"), (3, "地厅省公司")), default=1)
+        (1, "国家发明专利"), (2, "实用行新型专利")), default=1)
     extra = models.CharField(verbose_name=u"额外的资料",
                              max_length=255, blank=True, null=True, default="")
 
@@ -364,15 +398,43 @@ class MajorSecond(models.Model):
         return self.name
 
 
-class mark(models.Model):
+class Mark(models.Model):
     """
     成绩
     """
     uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
+    # 专业认证或资质
+    professional_certification_or_qualification = models.FloatField(verbose_name="专业认证或资质", default=0)
+    thesis_works = models.FloatField(verbose_name="论文著作", default=0)
+    national_patent = models.FloatField(verbose_name="国家专利", default=0)
+    technological_innovation = models.FloatField(verbose_name="科技创新", default=0)
+    skills_competition = models.FloatField(verbose_name="技能竞赛", default=0)
+    honour = models.FloatField(verbose_name="荣誉奖章", default=0)
+    professional = models.FloatField(verbose_name="职称/职鉴", default=0)
+    edu = models.FloatField(verbose_name="教育经历", default=0)
+    sum = models.FloatField(verbose_name="总成绩", default=0)
 
-    ProfessionalCertificationOrQualification = models.IntegerField(verbose_name)
     class Mate:
         verbose_name = u'成绩'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.uid.nickname
+
+
+class Enroll(models.Model):
+    """
+    报名表
+    """
+    uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
+    major = models.ForeignKey(MajorSecond, on_delete=models.CASCADE, verbose_name=u"报名的专业")
+    status = models.IntegerField(
+        choices=((1, u"有效"), (0, u"无效")), default=1, verbose_name=u"是否被删除")
+    add_time = models.DateTimeField(auto_now_add=True, verbose_name=u"注册时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name=u"修改时间")
+
+    class Mate:
+        verbose_name = u'报名表'
         verbose_name_plural = verbose_name
 
     def __str__(self):

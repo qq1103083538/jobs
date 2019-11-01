@@ -4,3 +4,19 @@
     color: #666;
 
 }
+
+.new-root {
+    width: 690px;
+    margin: 0 auto;
+}
+.div30 {
+
+}
+.div30 input{
+    width: 30% !important;
+    margin-right: 10px;
+    float: left;
+}
+label.radio-inline{
+    float: left;
+}

@@ -249,49 +249,86 @@
             <div class="hr-line-dashed"></div>
 
 
-            <div class="edu">
+            <div class="edu item-info">
                 <div class="header">
                     <span class="text-left">教育经历</span>
                     <a class="btn btn-w-m btn-outline btn-primary pull-right">
                         <i class="fa fa-plus"></i>&nbsp;添加教育经历
                     </a>
                 </div>
-                <div class="edu-list">
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-3">湖南农业大学</label>
-                        <label class="col-lg-3">电子商务</label>
-                        <label class="col-lg-2">本科</label>
-                        <label class="col-lg-2">2015.9-2018.9</label>
-                        <label class="col-lg-2">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                {% for item in edu_array %}
+                    <div class="edu-list item-info"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_graduate_start_time="{% p_to_js_date item.graduate_start_time %}"
+                         m_graduate_end_time="{% p_to_js_date item.graduate_end_time %}"
+                         m_major="{{ item.major }}"
+                         m_colleges="{{ item.colleges }}"
+                         m_education="{{ item.education }}"
+                         m_degree="{{ item.degree }}"
+                    >
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-3">{{ item.name }}</label>
+                            <label class="col-lg-3">{{ item.major }}</label>
+                            <label class="col-lg-1">
+                                {% if item.education == 1 %}
+                                    初中
+                                {% elif item.education == 2 %}
+                                    中技
+                                {% elif item.education == 3 %}
+                                    高中
+                                {% elif item.education == 4 %}
+                                    大专
+                                {% elif item.education == 5 %}
+                                    本科
+                                {% elif item.education == 6 %}
+                                    硕士
+                                {% elif item.education == 7 %}
+                                    MBA
+                                {% elif item.education == 8 %}
+                                    EMBA
+                                {% elif item.education == 9 %}
+                                    博士
+                                {% elif item.education == 10 %}
+                                    其他
+                                {% else %}
+                                    未选择
+                                {% endif %}
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.graduate_start_time %}#{% p_to_js_date item.graduate_end_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right add-info">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">学&nbsp校&nbsp名&nbsp称:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control" placeholder="学校名称"
-                                               value="{{ info.name }}">
+                                        <input type="text" name="name" class="name form-control" placeholder="学校名称"
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">就&nbsp读&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="graduate_start_time"
+                                               class="graduate_start_time form-control" placeholder="" value="">
                                         <span>---> </span>
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="graduate_end_time"
+                                               class="graduate_end_time form-control" placeholder="" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">所&nbsp学&nbsp专&nbsp业:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="weight" class="form-control" placeholder="所学专业~~"
+                                        <input type="text" name="major" class="major form-control" placeholder="所学专业~~"
                                                value="">
                                     </div>
                                 </div>
@@ -299,7 +336,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">所&nbsp在&nbsp院&nbsp系:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="weight" class="form-control" placeholder="院系~~"
+                                        <input type="text" name="colleges" class="colleges form-control"
+                                               placeholder="院系~~"
                                                value="">
                                     </div>
                                 </div>
@@ -307,7 +345,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">学&nbsp&nbsp历:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="education"
+                                                class="education form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择学历</option>
@@ -328,7 +367,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">学&nbsp&nbsp位:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="degree" class="degree form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择学位</option>
@@ -342,8 +381,13 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save" item_id="">保存并更新
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -356,40 +400,60 @@
 
 
             {#       添加职称  start    #}
-            <div class="professional">
+            <div class="professional item-info">
                 <div class="header">
                     <span class="text-left">职称/职鉴</span>
-                    <a class="btn btn-w-m btn-outline btn-primary pull-right">
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right add-info">
                         <i class="fa fa-plus"></i>&nbsp;添加职称/职鉴
                     </a>
                 </div>
-                <div class="edu-list">
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">软件开发工程师</label>
-                        <label class="col-lg-3">中级</label>
-                        <label class="col-lg-3">2018.9</label>
-                        <label class="col-lg-2">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                {% for item in professional_array %}
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}">
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                    初级
+                                {% elif item.level == 2 %}
+                                    中级(技师)
+                                {% elif item.level == 3 %}
+                                    高级(高级技师)
+                                {% elif item.level == 4 %}
+                                    其他
+                                {% else %}
+                                    未选择
+                                {% endif %}
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="profile-edit-form hidden">
+                {% endfor %}
+                <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
                             <div class="form-horizontal" style="">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">职&nbsp称&nbsp名&nbsp称:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="first_name" class="form-control"
-                                               placeholder="职&nbsp称&nbsp名&nbsp称" value="{{ info.name }}">
+                                        <input type="text" name="describe_name" class="form-control describe_name"
+                                               placeholder="职&nbsp称&nbsp名&nbsp称" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="weight" class="form-control" placeholder="" value="">
+                                        <input type="date" name="obtain_time" class="obtain_time form-control"
+                                               placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -397,7 +461,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="major_id" class="form-control select2-hidden-accessible"
+                                        <select name="level" class="level form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择职称等级</option>
@@ -414,21 +478,15 @@
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
                                             <form class="upload_pic_wrap" target="upload_file"
+                                                  id="upload_pic_wrap-from"
                                                   enctype="multipart/form-data"
                                                   method="POST" action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
+                                                           target_id="upload_pic_wrap-from"
                                                            accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
-                                                {% if info and info.main_image %}
-                                                    <span class="pic-each">
-                                                <img src="{% build_url info.main_image %}"/>
-                                                <span class="fa fa-times-circle del del_image"
-                                                      data="{{ info.main_image }}">
-                                                </span>
-                                            </span>
-                                                {% endif %}
                                             </form>
                                         </div>
                                     </div>
@@ -437,8 +495,14 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
-                                        <input type="hidden" name="id" value="{{ info.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save">保存并更新</button>
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary save"
+                                                item_id="">保存并更新
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-2 col-lg-offset-2">
+                                        <input type="hidden" name="id" value="{{ that.id }}">
+                                        <button class="btn btn-w-m btn-outline btn-primary cancel">取消</button>
                                     </div>
                                 </div>
 
@@ -459,37 +523,37 @@
                     </a>
                 </div>
                 {% for item in honour_array %}
-                <div 
-                class="edu-list"
-                item_id="{{ item.id }}"
-                m_name="{{ item.name }}"
-                m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                m_level="{{ item.level }}"
-                m_img="{{ item.extra }}"
-                >
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">{{ item.name }}</label>
-                        <label class="col-lg-3">
+                    <div
+                            class="edu-list"
+                            item_id="{{ item.id }}"
+                            m_name="{{ item.name }}"
+                            m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                            m_level="{{ item.level }}"
+                            m_img="{{ item.extra }}"
+                    >
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
                                 {% if item.level == 1 %}
-                                国家级
+                                    国家级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)
                                 {% elif item.level == 2 %}
-                                省,部,集团
+                                    省、部、集团级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)
                                 {% elif item.level == 3 %}
-                                地,厅,省公司
+                                    地、厅、省公司级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)
                                 {% elif item.level == 4 %}
-                                其他
+                                    其他
                                 {% else %}
-                                未选择
+                                    未选择
                                 {% endif %}
-                        </label>
-                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
-                        <label class="col-lg-2  btn-edit hidden">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2  btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
@@ -499,15 +563,15 @@
                                     <label class="col-lg-2 control-label">荣誉奖章名:</label>
                                     <div class="col-lg-10">
                                         <input type="text" name="describe_name"
-                                         class="form-control describe_name" placeholder="荣誉奖章名"
+                                               class="form-control describe_name" placeholder="荣誉奖章名"
                                                value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="obtain_time" 
-                                        class="form-control obtain_time" placeholder="" value="">
+                                        <input type="date" name="obtain_time"
+                                               class="form-control obtain_time" placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -516,13 +580,13 @@
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
                                         <select name="level"
-                                            class="level form-control select2-hidden-accessible"
+                                                class="level form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
-                                            <option value="1">国家级</option>
-                                            <option value="2">省,部,集团</option>
-                                            <option value="3">地,厅,省公司</option>
+                                            <option value="1">国家级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)</option>
+                                            <option value="2">省、部、集团级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)</option>
+                                            <option value="3">地、厅、省公司级技术能手、五一劳动奖章、劳动模范（先进工作者、标兵)</option>
                                             <option value="4">其他</option>
                                         </select>
                                     </div>
@@ -532,15 +596,15 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form 
-                                            id="upload_pic_wrap-from"
-                                            class="upload_pic_wrap" target="upload_file"
-                                                  enctype="multipart/form-data"
-                                                  method="POST" action="{% build_url '/upload/pic' %}">
+                                            <form
+                                                    id="upload_pic_wrap-from"
+                                                    class="upload_pic_wrap" target="upload_file"
+                                                    enctype="multipart/form-data"
+                                                    method="POST" action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
-                                                    target_id="upload_pic_wrap-from"
+                                                           target_id="upload_pic_wrap-from"
                                                            accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
                                             </form>
@@ -552,7 +616,8 @@
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary save"
-                                        item_id="">保存并更新</button>
+                                                item_id="">保存并更新
+                                        </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
@@ -577,36 +642,50 @@
                     </a>
                 </div>
                 {% for item in skills_competition_array %}
-                <div class="edu-list"
-                    item_id="{{ item.id }}"
-                    m_name="{{ item.name }}"
-                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                    m_level="{{ item.level }}"
-                    m_img="{{ item.extra }}"
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}"
                     >
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">{{ item.name }}</label>
-                        <label class="col-lg-3">
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
                                 {% if item.level == 1 %}
-                                国家级
+                                    国家级(一等奖)
                                 {% elif item.level == 2 %}
-                                省,部,集团
+                                    国家级(二等奖)
                                 {% elif item.level == 3 %}
-                                地,厅,省公司
+                                    国家级(三等奖)
                                 {% elif item.level == 4 %}
-                                其他
+                                    国家级(优秀奖或团体奖)
+                                {% elif item.level == 5 %}
+                                    省、部、集团级(一等奖)
+                                {% elif item.level == 6 %}
+                                    省、部、集团级(二等奖)
+                                {% elif item.level == 7 %}
+                                    省、部、集团级(三等奖)
+                                {% elif item.level == 8 %}
+                                    省、部、集团级(优秀奖或团体奖)
+                                {% elif item.level == 9 %}
+                                    地、厅、省公司级(一等奖)
+                                {% elif item.level == 10 %}
+                                    地、厅、省公司级(二等奖)
+                                {% elif item.level == 11 %}
+                                    地、厅、省公司级(三等奖)
                                 {% else %}
-                                未选择
+                                    未选择
                                 {% endif %}
-                        </label>
-                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
-                        <label class="col-lg-2 btn-edit hidden">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
@@ -615,16 +694,16 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">技能竞赛名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="describe_name" 
-                                        class="form-control describe_name" placeholder="技能竞赛名"
+                                        <input type="text" name="describe_name"
+                                               class="form-control describe_name" placeholder="技能竞赛名"
                                                value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="obtain_time" 
-                                        class="form-control obtain_time" placeholder="" value="">
+                                        <input type="date" name="obtain_time"
+                                               class="form-control obtain_time" placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -632,14 +711,22 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="level" 
-                                        class="level form-control select2-hidden-accessible"
+                                        <select name="level"
+                                                class="level form-control select2-hidden-accessible"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
-                                            <option value="1">国家级</option>
-                                            <option value="2">省,部,集团</option>
-                                            <option value="3">地,厅,省公司</option>
+                                            <option value="1">国家级(一等奖)</option>
+                                            <option value="2">国家级(二等奖)</option>
+                                            <option value="3">国家级(三等奖)</option>
+                                            <option value="4">国家级(优秀奖或团体奖)</option>
+                                            <option value="5">省、部、集团级(一等奖)</option>
+                                            <option value="6">省、部、集团级(二等奖)</option>
+                                            <option value="7">省、部、集团级(三等奖)</option>
+                                            <option value="8">省、部、集团级(优秀奖或团体奖)</option>
+                                            <option value="9">地、厅、省公司级(一等奖)</option>
+                                            <option value="10">地、厅、省公司级(二等奖)</option>
+                                            <option value="11">地、厅、省公司级(三等奖)</option>
                                             <option value="4">其他</option>
                                         </select>
                                     </div>
@@ -649,16 +736,16 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form 
-                                            id="upload_pic_wrap-from"
-                                            class="upload_pic_wrap" 
-                                            target="upload_file"
-                                                  enctype="multipart/form-data"
-                                                  method="POST" action="{% build_url '/upload/pic' %}">
+                                            <form
+                                                    id="upload_pic_wrap-from"
+                                                    class="upload_pic_wrap"
+                                                    target="upload_file"
+                                                    enctype="multipart/form-data"
+                                                    method="POST" action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
-                                                    target_id="upload_pic_wrap-from"
+                                                           target_id="upload_pic_wrap-from"
                                                            accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
                                             </form>
@@ -670,7 +757,8 @@
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary save"
-                                        item_id="">保存并更新</button>
+                                                item_id="">保存并更新
+                                        </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
@@ -695,36 +783,46 @@
                     </a>
                 </div>
                 {% for item in technological_innovation_array %}
-                <div class="edu-list"
-                    item_id="{{ item.id }}"
-                    m_name="{{ item.name }}"
-                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                    m_level="{{ item.level }}"
-                    m_img="{{ item.extra }}"
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}"
                     >
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">{{ item.name }}</label>
-                        <label class="col-lg-3">
-                            {% if item.level == 1 %}
-                            国家级
-                            {% elif item.level == 2 %}
-                            省,部,集团
-                            {% elif item.level == 3 %}
-                            地,厅,省公司
-                            {% elif item.level == 4 %}
-                            其他
-                            {% else %}
-                            未选择
-                            {% endif %}
-                        </label>
-                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
-                        <label class="col-lg-2 btn-edit hidden">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                    国家级(一等奖)
+                                {% elif item.level == 2 %}
+                                    国家级(二等奖)
+                                {% elif item.level == 3 %}
+                                    国家级(三等奖)
+                                {% elif item.level == 4 %}
+                                    省、部、集团级(一等奖)
+                                {% elif item.level == 5 %}
+                                    省、部、集团级(二等奖)
+                                {% elif item.level == 6 %}
+                                    省、部、集团级(三等奖)
+                                {% elif item.level == 7 %}
+                                    地、厅、省公司级(一等奖)
+                                {% elif item.level == 8 %}
+                                    地、厅、省公司级(二等奖)
+                                {% elif item.level == 9 %}
+                                    地、厅、省公司级(三等奖)
+                                {% else %}
+                                    未选择
+                                {% endif %}
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
@@ -733,18 +831,18 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">科技创新名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="describe_name" 
-                                            class="form-control describe_name" 
-                                            placeholder="科技创新"
-                                            value="">
+                                        <input type="text" name="describe_name"
+                                               class="form-control describe_name"
+                                               placeholder="科技创新"
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="obtain_time" 
-                                        class="form-control obtain_time" 
-                                        placeholder="" value="">
+                                        <input type="date" name="obtain_time"
+                                               class="form-control obtain_time"
+                                               placeholder="" value="">
                                     </div>
                                 </div>
 
@@ -752,15 +850,20 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="level" 
-                                            class="form-control select2-hidden-accessible level"
+                                        <select name="level"
+                                                class="form-control select2-hidden-accessible level"
                                                 tabindex="-1"
                                                 aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
-                                            <option value="1">国家级</option>
-                                            <option value="2">省,部,集团</option>
-                                            <option value="3">地,厅,省公司</option>
-                                            <option value="4">其他</option>
+                                            <option value="1">国家级(一等奖)</option>
+                                            <option value="2">国家级(二等奖)</option>
+                                            <option value="3">国家级(三等奖)</option>
+                                            <option value="4">省、部、集团级(一等奖)</option>
+                                            <option value="5">省、部、集团级(二等奖)</option>
+                                            <option value="6">省、部、集团级(三等奖)</option>
+                                            <option value="7">地、厅、省公司级(已等奖)</option>
+                                            <option value="8">地、厅、省公司级(二等奖)</option>
+                                            <option value="9">地、厅、省公司级(三等奖)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -769,18 +872,18 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form 
-                                                id="upload_pic_wrap-from"
-                                                class="upload_pic_wrap" 
-                                                target="upload_file"
-                                                enctype="multipart/form-data"
-                                                method="POST" 
-                                                action="{% build_url '/upload/pic' %}">
+                                            <form
+                                                    id="upload_pic_wrap-from"
+                                                    class="upload_pic_wrap"
+                                                    target="upload_file"
+                                                    enctype="multipart/form-data"
+                                                    method="POST"
+                                                    action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
                                                     <input type="file" name="pic"
-                                                        target_id="upload_pic_wrap-from"
-                                                        accept="image/png, image/jpeg, image/jpg,image/gif">
+                                                           target_id="upload_pic_wrap-from"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif">
                                                 </div>
                                             </form>
                                         </div>
@@ -791,7 +894,8 @@
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary save"
-                                        item_id="">保存并更新</button>
+                                                item_id="">保存并更新
+                                        </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
@@ -816,36 +920,34 @@
                     </a>
                 </div>
                 {% for item in national_patent_array %}
-                <div class="edu-list"
-                    item_id="{{ item.id }}"
-                    m_name="{{ item.name }}"
-                    m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                    m_level="{{ item.level }}"
-                    m_img="{{ item.extra }}"
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}"
                     >
-                    <div class="row mg-t20 wrap_first_set item" style="">
-                        <label class="col-lg-4">{{ item.name }}</label>
-                        <label class="col-lg-3">
-                            {% if item.level == 1 %}
-                            国家发明专利
-                            {% elif item.level == 2 %}
-                            实用行新型专利
-                            {% elif item.level == 3 %}
-                            地,厅,省公司
-                            {% elif item.level == 4 %}
-                            其他
-                            {% else %}
-                            未选择
-                            {% endif %}
-                        </label>
-                        <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
-                        <label class="col-lg-2 btn-edit hidden">
-                            <a class="btn btn-w-m btn-outline btn-info pull-right">
-                                <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
-                            </a>
-                        </label>
+                        <div class="row mg-t20 wrap_first_set item" style="">
+                            <label class="col-lg-4">{{ item.name }}</label>
+                            <label class="col-lg-3">
+                                {% if item.level == 1 %}
+                                    国家发明专利
+                                {% elif item.level == 2 %}
+                                    实用行新型专利
+                                {% elif item.level == 3 %}
+                                    其他
+                                {% else %}
+                                    未选择
+                                {% endif %}
+                            </label>
+                            <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
+                            <label class="col-lg-2 btn-edit hidden">
+                                <a class="btn btn-w-m btn-outline btn-info pull-right">
+                                    <i class="fa fa-cog fa-fw"></i>&nbsp;编辑
+                                </a>
+                            </label>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
@@ -854,21 +956,21 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">国家专利名:</label>
                                     <div class="col-lg-10">
-                                        <input type="text" 
-                                        name="describe_name"
-                                        class="form-control describe_name" 
-                                        placeholder="国家专利"
-                                        value="">
+                                        <input type="text"
+                                               name="describe_name"
+                                               class="form-control describe_name"
+                                               placeholder="国家专利"
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" 
-                                        name="obtain_time" 
-                                        class="form-control obtain_time" 
-                                        placeholder="" 
-                                        value="">
+                                        <input type="date"
+                                               name="obtain_time"
+                                               class="form-control obtain_time"
+                                               placeholder=""
+                                               value="">
                                     </div>
                                 </div>
 
@@ -876,15 +978,14 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">等&nbsp&nbsp级:</label>
                                     <div class="col-lg-10">
-                                        <select name="level" 
-                                            class="form-control select2-hidden-accessible level"
-                                            tabindex="-1"
-                                            aria-hidden="true">
+                                        <select name="level"
+                                                class="form-control select2-hidden-accessible level"
+                                                tabindex="-1"
+                                                aria-hidden="true">
                                             <option value="-1" selected>请选择等级</option>
                                             <option value="1">国家发明专利</option>
                                             <option value="2">实用行新型专利</option>
-                                            <option value="3">地,厅,省公司</option>
-                                            <option value="4">其他</option>
+                                            <option value="3">其他</option>
                                         </select>
                                     </div>
                                 </div>
@@ -893,19 +994,19 @@
                                     <label class="col-lg-2 control-label">上传相关照片:</label>
                                     <div class="col-lg-10">
                                         <div class="col-lg-10">
-                                            <form 
-                                                id="upload_pic_wrap-from"
-                                                class="upload_pic_wrap" 
-                                                target="upload_file"
-                                                enctype="multipart/form-data"
-                                                method="POST" 
-                                                action="{% build_url '/upload/pic' %}">
+                                            <form
+                                                    id="upload_pic_wrap-from"
+                                                    class="upload_pic_wrap"
+                                                    target="upload_file"
+                                                    enctype="multipart/form-data"
+                                                    method="POST"
+                                                    action="{% build_url '/upload/pic' %}">
                                                 <div class="upload_wrap pull-left">
                                                     <i class="fa fa-upload fa-2x"></i>
-                                                    <input type="file" 
-                                                        name="pic"
-                                                        accept="image/png, image/jpeg, image/jpg,image/gif"
-                                                        target_id="upload_pic_wrap-from">
+                                                    <input type="file"
+                                                           name="pic"
+                                                           accept="image/png, image/jpeg, image/jpg,image/gif"
+                                                           target_id="upload_pic_wrap-from">
                                                 </div>
                                             </form>
                                         </div>
@@ -916,7 +1017,8 @@
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
                                         <button class="btn btn-w-m btn-outline btn-primary save"
-                                        item_id="">保存并更新</button>
+                                                item_id="">保存并更新
+                                        </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
@@ -941,30 +1043,30 @@
                     </a>
                 </div>
                 {% for item in thesis_works_array %}
-                    <div class="edu-list" 
-                        item_id="{{ item.id }}"
-                        m_name="{{ item.name }}"
-                        m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                        m_level="{{ item.level }}"
-                        m_img="{{ item.extra }}"
-                        >
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}"
+                    >
                         <div class="row mg-t20 wrap_first_set item" style="">
                             <label class="col-lg-4">{{ item.name }}</label>
                             <label class="col-lg-3">
                                 {% if item.level == 1 %}
-                                在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(第一作者)
+                                    在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(第一作者)
                                 {% elif item.level == 2 %}
-                                在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(合著者)
+                                    在核心期刊发表论文或被SCI、EI、ISTP等收录的论文(合著者)
                                 {% elif item.level == 3 %}
-                                在CN期刊上发表的论文(第一作者)
+                                    在CN期刊上发表的论文(第一作者)
                                 {% elif item.level == 4 %}
-                                在CN期刊上发表的论文(合著者)
+                                    在CN期刊上发表的论文(合著者)
                                 {% elif item.level == 5 %}
-                                著作第一主编
+                                    著作第一主编
                                 {% elif item.level == 6 %}
-                                副主编或编委
+                                    副主编或编委
                                 {% else %}
-                                未选择
+                                    未选择
                                 {% endif %}
                             </label>
                             <label class="col-lg-3">{% p_to_js_date item.obtain_time %}</label>
@@ -976,7 +1078,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                
+
                 <div class="profile-edit-form hidden edit">
                     <div class="mg-t20 wrap_first_set" style="">
                         <div class="col-lg-22" style="">
@@ -991,7 +1093,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label obtain_time">获&nbsp取&nbsp时&nbsp间:</label>
                                     <div class="col-lg-10">
-                                        <input type="date" name="obtain_time" class="form-control obtain_time" placeholder=""
+                                        <input type="date" name="obtain_time" class="form-control obtain_time"
+                                               placeholder=""
                                                value="">
                                     </div>
                                 </div>
@@ -1034,7 +1137,8 @@
                                 <div class="form-group">
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
-                                        <button class="btn btn-w-m btn-outline btn-primary save"  item_id="">保存并更新</button>
+                                        <button class="btn btn-w-m btn-outline btn-primary save" item_id="">保存并更新
+                                        </button>
                                     </div>
                                     <div class="col-lg-2 col-lg-offset-2">
                                         <input type="hidden" name="id" value="{{ that.id }}">
@@ -1060,12 +1164,12 @@
                     </a>
                 </div>
                 {% for item in p_c_or_q_array %}
-                    <div class="edu-list" 
-                        item_id="{{ item.id }}"
-                        m_name="{{ item.name }}"
-                        m_obtion_time="{% p_to_js_date item.obtain_time %}"
-                        m_level="{{ item.level }}"
-                        m_img="{{ item.extra }}">
+                    <div class="edu-list"
+                         item_id="{{ item.id }}"
+                         m_name="{{ item.name }}"
+                         m_obtion_time="{% p_to_js_date item.obtain_time %}"
+                         m_level="{{ item.level }}"
+                         m_img="{{ item.extra }}">
                         <div class="row mg-t20 wrap_first_set item" style="">
                             <label class="col-lg-4">{{ item.name }}</label>
                             <label class="col-lg-3">
@@ -1174,11 +1278,99 @@
         </div>
 
         <div class="zp-right-container">
-            <div style="width: 100%;height: 200px">
-                上面
-            </div>
-            <div>
-                下面
+            <div style="width: 100%">
+                <h2 class="text-center">提交材料得分</h2>
+
+                <label>职称/职鉴</label>
+                <div class="progress">
+                    <label>{{ mark.professional_array_sum }}({{ mark.professional_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>学历/学位</label>
+                <div class="progress">
+                    <label>{{ mark.edu_array_sum }}({{ mark.edu_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>荣誉奖章</label>
+                <div class="progress">
+                    <label>{{ mark.honour_array_sum }}({{ mark.honour_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>技能竞赛</label>
+                <div class="progress">
+                    <label>{{ mark.skills_competition_array_sum }}({{ mark.skills_competition_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>科技进步、创新奖</label>
+                <div class="progress">
+                    <label>{{ mark.thesis_works_array_sum }}({{ mark.thesis_works_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>专利</label>
+                <div class="progress">
+                    <label>{{ mark.national_patent_array_sum }}({{ mark.national_patent_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                 <label>论文著作</label>
+                <div class="progress">
+                    <label>{{ mark.thesis_works_array_sum }}({{ mark.thesis_works_array_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                 <label>专业认证或资质</label>
+                <div class="progress">
+                    <label>{{ mark.p_c_or_q_array_sum }}({{ mark.p_c_or_q_must }})</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
+                <label>总得分</label>
+                <div class="progress">
+                    <label>{{ mark.total }}(100)</label>
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuenow="{{ mark.professional_array_sum }}"
+                         aria-valuemin="0" aria-valuemax="{{ mark.professional_array_must }}" style="width: 90%">
+                        <span class="sr-only">40% Complete (success)</span>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div id="my_uid" class="hidden" uid="{{ that.id }}"></div>
@@ -1190,11 +1382,13 @@
     <script src="{% build_static_url '/js/new/resume.js' %}"></script>
     <script src="{% build_static_url '/js/new/user-info.js' %}"></script>
     <script src="{% build_static_url '/js/new/professional_certification_or_qualification.js' %}"></script>
-    
+
     <script src="{% build_static_url '/js/new/thesis_works.js' %}"></script>
     <script src="{% build_static_url '/js/new/national_patent.js' %}"></script>
     <script src="{% build_static_url '/js/new/technological_innovation.js' %}"></script>
     <script src="{% build_static_url '/js/new/skills_competition.js' %}"></script>
     <script src="{% build_static_url '/js/new/honour.js' %}"></script>
-    
+    <script src="{% build_static_url '/js/new/professional.js' %}"></script>
+    <script src="{% build_static_url '/js/new/edu.js' %}"></script>
+
 {% endblock %}

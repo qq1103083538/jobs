@@ -105,33 +105,44 @@ var new_resume_ops = {
 
             // 获取当前展示的列表
             var list = button.parents(".edu-list");
-            var m_name = list.attr("m_name");
             var item_id = list.attr("item_id");
-            var m_obtion_time = list.attr("m_obtion_time");
-            var m_level = list.attr("m_level");
-            var m_img = list.attr("m_img");
-            edit.find(".describe_name").val(m_name);
-            edit.find(".obtain_time").val(m_obtion_time);
-            edit.find(".level").find("option[value='" + m_level + "']").attr("selected", true);
-            var upload_pic_wrap = edit.find(".upload_pic_wrap");
-            var def_images = upload_pic_wrap.find(".del_image");
-            for (var i = 0; i < def_images.length; i++) {
-                var children_image = def_images[i];
-                $(children_image).parent().remove();
+            if ($(root).hasClass("edu")){
+                var m_name = list.attr("m_name");
+                var m_graduate_start_time = list.attr("m_graduate_start_time");
+                var m_graduate_end_time = list.attr("m_graduate_end_time");
+                var m_major = list.attr("m_major");
+                var m_colleges = list.attr("m_colleges");
+                var m_education = list.attr("m_education");
+                var m_degree = list.attr("m_degree");
+                edit.find(".name").val(m_name);
+                edit.find(".graduate_start_time").val(m_graduate_start_time);
+                edit.find(".graduate_end_time").val(m_graduate_end_time);
+                edit.find(".major").val(m_major);
+                edit.find(".colleges").val(m_colleges);
+                edit.find(".education").find("option[value='" + m_education + "']").attr("selected", true);
+                edit.find(".degree").find("option[value='" + m_degree + "']").attr("selected", true);
             }
-            var imgs = m_img.split("#@#");
-            for (var i = 0; i < imgs.length; i++) {
-                var html = '<img src="/static' + imgs[i] + '"/>'
-                    + '<span class="fa fa-times-circle del del_image" data="' + imgs[i] + '"></span>';
-                // if ($(" .pic-each").size() > 0) {
-                //     $(".upload_pic_wrap .pic-each").html(html);
-                // } else {
-                //     $(".upload_pic_wrap").append('<span class="pic-each">' + html + '</span>');
-                // }
-                upload_pic_wrap.append('<span class="pic-each">' + html + '</span>');
+            else{
+                var m_name = list.attr("m_name");
+                var m_obtion_time = list.attr("m_obtion_time");
+                var m_level = list.attr("m_level");
+                var m_img = list.attr("m_img");
+                edit.find(".describe_name").val(m_name);
+                edit.find(".obtain_time").val(m_obtion_time);
+                edit.find(".level").find("option[value='" + m_level + "']").attr("selected", true);
+                var upload_pic_wrap = edit.find(".upload_pic_wrap");
+                var def_images = upload_pic_wrap.find(".del_image");
+                for (var i = 0; i < def_images.length; i++) {
+                    var children_image = def_images[i];
+                    $(children_image).parent().remove();
+                }
+                var imgs = m_img.split("#@#");
+                for (var i = 0; i < imgs.length; i++) {
+                    var html = '<img src="/static' + imgs[i] + '"/>'
+                        + '<span class="fa fa-times-circle del del_image" data="' + imgs[i] + '"></span>';
+                    upload_pic_wrap.append('<span class="pic-each">' + html + '</span>');
+                }
             }
-            console.log("~~~~~~~");
-            console.log(item_id);
             var save_button = root.find("button.save");
             save_button.attr("item_id",item_id);
             edit.removeClass("hidden");

@@ -14,6 +14,7 @@ div.resume .resume-tabs-wrapper {
 }
 
 div.resume .zp-left-container {
+    float: left;
     width: 880px;
     background-color: white;
     padding: 40px 25px 42px 25px;
@@ -141,11 +142,6 @@ div.resume .zp-left-container .edu .edu-list label:first-child {
     line-height: 32px;
 }
 
-
-div.resume .zp-right-container {
-    width: 305px;
-    background-color: black;
-}
 
 /*   */
 div.resume .zp-left-container .professional .header {
@@ -347,6 +343,13 @@ div.resume .zp-left-container .Professional_certification_or_qualification .edu-
     line-height: 32px;
 }
 
-div.upload_wrap input[type='file']{
+div.resume .zp-right-container {
+    padding: 10px;
+    background-color: white;
+    width: 305px;
+    float: right;
+}
+
+div.upload_wrap input[type='file'] {
     width: 100% !important;
 }
