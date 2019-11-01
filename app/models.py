@@ -420,3 +420,22 @@ class Mark(models.Model):
 
     def __str__(self):
         return self.uid.nickname
+
+
+class Enroll(models.Model):
+    """
+    报名表
+    """
+    uid = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=u"账号")
+    major = models.ForeignKey(MajorSecond, on_delete=models.CASCADE, verbose_name=u"报名的专业")
+    status = models.IntegerField(
+        choices=((1, u"有效"), (0, u"无效")), default=1, verbose_name=u"是否被删除")
+    add_time = models.DateTimeField(auto_now_add=True, verbose_name=u"注册时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name=u"修改时间")
+
+    class Mate:
+        verbose_name = u'报名表'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.uid.nickname

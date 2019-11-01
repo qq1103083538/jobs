@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from common.Helper import ops_render, get_date_form_str, getFormatDate
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 
 from .models import User, MajorClass, MajorFirst, MajorSecond, ProfessionalCertificationOrQualification, ThesisWorks, \
-    NationalPatent, TechnologicalInnovation, SkillsCompetition, Honour, Professional, Edu, Mark
+    NationalPatent, TechnologicalInnovation, SkillsCompetition, Honour, Professional, Edu, Mark, Enroll
 from common.UserService import UserService
 
 
@@ -49,6 +49,7 @@ def login(request):
         request_json = request.POST
         username = request_json.get("login_name", "")
         password = request_json.get("login_pwd", "")
+        login_type = request_json.get("login_type", 1)
         if not username or len(username) < 4:
             response['code'] = 1
             response['msg'] = "请输入规范的用户名~"
@@ -58,7 +59,7 @@ def login(request):
             response['msg'] = "请输入规范的密码~"
             return JsonResponse(response)
 
-        users = User.objects.filter(username=username)
+        users = User.objects.filter(username=username, type=login_type)
         print(users)
         if users:
             user = users[0]
@@ -71,6 +72,12 @@ def login(request):
                     response['code'] = 5
                     response['msg'] = "您的账号不能使用，请联系相关管理人员~"
                     return JsonResponse(response)
+
+                i_data = {"path": "/resume"}
+                if user.type == 2:
+                    response['msg'] = "管理员登陆成功.."
+                    i_data['path'] = "/cms"
+                response["data"] = i_data
                 json_response = JsonResponse(response)
                 auth_code = UserService.gene_auth_code(user)
                 json_response.set_cookie("jobs", auth_code)
@@ -829,7 +836,9 @@ def resume(request):
             ret["that"] = user
         else:
             return HttpResponse("服务器异常，没有该用户～")
-
+    enrolls = Enroll.objects.filter(uid=user, status=1)
+    if len(enrolls) != 1:
+        return HttpResponseRedirect("/new")
     p_c_or_q_array = ProfessionalCertificationOrQualification.objects.filter(uid=user)
     ret['p_c_or_q_array'] = p_c_or_q_array
     thesis_works_array = ThesisWorks.objects.filter(uid=user)

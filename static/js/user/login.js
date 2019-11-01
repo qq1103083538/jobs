@@ -8,8 +8,10 @@ const user_login_ops = {
         this.createCode(4);
         const login_wrap = $(".login_wrap");
         const register_wrap = $(".register_wrap");
+        const admin_login_wrap = $(".admin_login_wrap");
         login_wrap.removeClass("hide");
         register_wrap.addClass("hide");
+        admin_login_wrap.addClass("hide");
     },
     show_register: function () {
         this.createCode(4);
@@ -19,6 +21,12 @@ const user_login_ops = {
         // register_wrap.fadeIn();
         login_wrap.addClass("hide");
         register_wrap.removeClass("hide");
+    },
+    show_admin_login: function () {
+        const login_wrap = $(".login_wrap");
+        const admin_login_wrap = $(".admin_login_wrap");
+        login_wrap.addClass("hide");
+        admin_login_wrap.removeClass("hide");
     },
     createCode: function (length) {
         //生成验证码的方法
@@ -67,6 +75,60 @@ const user_login_ops = {
         const btn_just_register = $(".login_wrap .do-just-register");
         const btn_do_register = $(".register_wrap .do-register");
         const btn_just_login = $(".register_wrap .do-black");
+        const btn_admin_just_login = $(".admin_login_wrap .do-black");
+        const btn_just_admin_login = $(".login_wrap .do-admin-login");
+
+        const btn_do_admin_login = $(".admin_login_wrap .do-login");
+
+        btn_do_admin_login.click(function () {
+            if (btn_do_admin_login.hasClass("disabled")) {
+                common_ops.alert("正在处理!!请不要重复提交~~");
+                return;
+            }
+
+            const login_name = $(".admin_login_wrap input[name=login_name]").val();
+            const login_pwd = $(".admin_login_wrap input[name=login_pwd]").val();
+
+            if (login_name == undefined || login_name.length < 4) {
+                common_ops.alert("请输入正确的登录用户名~~");
+                return;
+            }
+            if (login_pwd == undefined || login_pwd.length < 4) {
+                common_ops.alert("请输入正确的密码~~");
+                return;
+            }
+            btn_do_admin_login.addClass("disabled");
+            var is_admin = $(".login_wrap").hasClass("hide");
+            $.ajax({
+                url: common_ops.buildUrl("/user/login"),
+                type: 'POST',
+                data: {'login_name': login_name, 'login_pwd': login_pwd, 'login_type': is_admin ? 2 : 1},
+                dataType: 'json',
+                success: function (res) {
+                    btn_do_admin_login.removeClass("disabled");
+                    var callback = null;
+
+                    if (res.code == 200) {
+                        var data = res.data;
+                        var path = data.path;
+                        callback = function () {
+                            window.location.href = common_ops.buildUrl(path);
+                        }
+                    } else {
+                        callback = null;
+                    }
+                    common_ops.alert(res.msg, callback);
+                },
+                error: function (error) {
+                    const callback = function () {
+                        btn_do_admin_login.removeClass("disabled");
+                    };
+
+                    common_ops.alert("网络失败～ 请求状态码:" + error.status, callback);
+                }
+            });
+        });
+
 
         btn_do_login.click(function () {
             if (btn_do_login.hasClass("disabled")) {
@@ -87,18 +149,22 @@ const user_login_ops = {
             }
             btn_do_login.addClass("disabled");
             btn_just_register.addClass("disable");
+            var is_admin = $(".login_wrap").hasClass("hide");
             $.ajax({
                 url: common_ops.buildUrl("/user/login"),
                 type: 'POST',
-                data: {'login_name': login_name, 'login_pwd': login_pwd},
+                data: {'login_name': login_name, 'login_pwd': login_pwd, 'login_type': is_admin ? 2 : 1},
                 dataType: 'json',
                 success: function (res) {
                     btn_do_login.removeClass("disabled");
                     btn_just_register.removeClass("disable");
                     var callback = null;
+
                     if (res.code == 200) {
+                        var data = res.data;
+                        var path = data.path;
                         callback = function () {
-                            window.location.href = common_ops.buildUrl("/");
+                            window.location.href = common_ops.buildUrl(path);
                         }
                     } else {
                         callback = null;
@@ -122,6 +188,13 @@ const user_login_ops = {
                 return;
             }
             self.show_register();
+        });
+        btn_just_admin_login.click(function () {
+            if (btn_just_admin_login.hasClass("disabled")) {
+                common_ops.alert("正在处理!!请不要切换~~");
+                return;
+            }
+            self.show_admin_login();
         });
 
         btn_do_register.click(function () {
@@ -191,6 +264,13 @@ const user_login_ops = {
         });
         btn_just_login.click(function () {
             if (btn_just_login.hasClass("disabled")) {
+                common_ops.alert("正在处理!!请不要切换~~");
+                return;
+            }
+            self.show_login();
+        });
+        btn_admin_just_login.click(function () {
+            if (btn_admin_just_login.hasClass("disabled")) {
                 common_ops.alert("正在处理!!请不要切换~~");
                 return;
             }
