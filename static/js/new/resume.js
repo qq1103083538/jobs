@@ -88,7 +88,7 @@ var new_resume_ops = {
             $(this).find(".btn-edit").removeClass("hidden");
         });
         $("div.item-info .edu-list").mouseout(function () {
-            if(!$(".edit").hasClass("hidden")){
+            if (!$(".edit").hasClass("hidden")) {
                 return;
             }
             $(this).find(".btn-edit").addClass("hidden");
@@ -106,7 +106,7 @@ var new_resume_ops = {
             // 获取当前展示的列表
             var list = button.parents(".edu-list");
             var item_id = list.attr("item_id");
-            if ($(root).hasClass("edu")){
+            if ($(root).hasClass("edu")) {
                 var m_name = list.attr("m_name");
                 var m_graduate_start_time = list.attr("m_graduate_start_time");
                 var m_graduate_end_time = list.attr("m_graduate_end_time");
@@ -121,8 +121,7 @@ var new_resume_ops = {
                 edit.find(".colleges").val(m_colleges);
                 edit.find(".education").find("option[value='" + m_education + "']").attr("selected", true);
                 edit.find(".degree").find("option[value='" + m_degree + "']").attr("selected", true);
-            }
-            else{
+            } else {
                 var m_name = list.attr("m_name");
                 var m_obtion_time = list.attr("m_obtion_time");
                 var m_level = list.attr("m_level");
@@ -141,18 +140,28 @@ var new_resume_ops = {
                     var html = '<img src="/static' + imgs[i] + '"/>'
                         + '<span class="fa fa-times-circle del del_image" data="' + imgs[i] + '"></span>';
                     upload_pic_wrap.append('<span class="pic-each">' + html + '</span>');
+                    new_resume_ops.delete_img();
                 }
             }
             var save_button = root.find("button.save");
-            save_button.attr("item_id",item_id);
+            save_button.attr("item_id", item_id);
             edit.removeClass("hidden");
         });
+
     },
     delete_img: function () {
+        // 新添加元素需要重新绑定
         $(".del_image").unbind().click(function () {
             $(this).parent().remove();
 
         });
+        // 未来元素监听方法。
+        // $(document).on('click', '.del_image', function () {
+        //
+        //     alert("abc");
+        //     $(this).parent().remove();
+        //
+        // });
     }
 };
 $(document).ready(function () {
